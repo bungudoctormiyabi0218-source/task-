@@ -94,9 +94,20 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t1);min-he
 .btn-gold:active{background:rgba(201,168,78,.18)}
 .btn-sm{height:36px;padding:0 12px;font-size:12px}
 
-/* FAB — floating add button for mobile */
-.fab{display:none;position:fixed;bottom:24px;right:18px;width:54px;height:54px;border-radius:50%;background:var(--gold);border:none;font-size:26px;color:#000;cursor:pointer;align-items:center;justify-content:center;z-index:50;box-shadow:0 4px 20px rgba(201,168,78,.4);transition:.15s;font-weight:300}
-.fab:active{transform:scale(.93)}
+/* SPEED DIAL FAB */
+.fab-wrap{display:none;position:fixed;bottom:24px;right:18px;z-index:50;flex-direction:column;align-items:flex-end;gap:12px}
+.fab-main{width:54px;height:54px;border-radius:50%;background:var(--gold);border:none;font-size:28px;color:#000;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .25s;box-shadow:0 4px 20px rgba(201,168,78,.35);font-weight:300;flex-shrink:0}
+.fab-main.open{transform:rotate(45deg)}
+.fab-options{display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.fab-opt{display:flex;align-items:center;gap:10px;opacity:0;pointer-events:none;transform:translateY(12px);transition:opacity .2s,transform .2s}
+.fab-opt.v{opacity:1;pointer-events:auto;transform:translateY(0)}
+.fab-opt:nth-child(2){transition-delay:.05s}
+.fab-lbl{background:var(--s2);border:0.5px solid var(--b2);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:500;color:var(--t1);white-space:nowrap;box-shadow:0 2px 12px rgba(0,0,0,.4)}
+.fab-sub{width:44px;height:44px;border-radius:50%;background:var(--s2);border:0.5px solid var(--b2);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--gold);flex-shrink:0;box-shadow:0 2px 12px rgba(0,0,0,.4)}
+.fab-sub:active{background:var(--s3)}
+/* dim overlay when fab open */
+.fab-dim{display:none;position:fixed;inset:0;z-index:49;background:rgba(0,0,0,.4)}
+.fab-dim.v{display:block}
 
 /* CALENDAR */
 .cal-wrap{background:var(--s1);border:0.5px solid var(--b1);border-radius:var(--r);padding:14px;margin-bottom:8px}
@@ -128,11 +139,33 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t1);min-he
 .ai-box{background:var(--s1);border:0.5px solid var(--b1);border-radius:var(--r);padding:16px;font-size:14px;line-height:1.8;color:var(--t2);min-height:64px;white-space:pre-wrap}
 .ai-box.loading{color:var(--t3);font-style:italic}
 
-/* MODALS — bottom sheet on mobile */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);z-index:100;align-items:flex-end;justify-content:center}
-.overlay.open{display:flex}
-.modal{background:var(--s1);border:0.5px solid var(--b2);border-radius:20px 20px 0 0;padding:20px 20px calc(20px + env(safe-area-inset-bottom));width:100%;max-width:520px;animation:slideup .22s ease;max-height:90vh;overflow-y:auto}
-@keyframes slideup{from{transform:translateY(100%)}to{transform:translateY(0)}}
+/* MODALS — bottom sheet on mobile, reliable animation */
+.overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.65);
+  backdrop-filter:blur(6px);
+  z-index:100;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .25s ease;
+}
+.overlay.open{opacity:1;pointer-events:auto}
+.modal{
+  background:var(--s1);
+  border:0.5px solid var(--b2);
+  border-radius:20px 20px 0 0;
+  padding:20px 20px calc(20px + env(safe-area-inset-bottom));
+  width:100%;
+  max-width:520px;
+  max-height:90vh;
+  overflow-y:auto;
+  transform:translateY(100%);
+  transition:transform .35s cubic-bezier(0.32,0.72,0,1);
+}
+.overlay.open .modal{transform:translateY(0)}
 .modal-handle{width:40px;height:4px;background:var(--b3);border-radius:2px;margin:0 auto 18px}
 .modal-title{font-size:16px;font-weight:600;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between}
 .modal label{display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3);margin-bottom:6px;margin-top:16px}
@@ -156,17 +189,22 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t1);min-he
   .stats{grid-template-columns:repeat(4,1fr)}
   .hdr-date{font-size:26px}
   body{padding:28px 20px 80px}
-  .overlay{align-items:center}
-  .modal{border-radius:16px;padding:24px;width:400px;max-height:none;animation:pop .18s ease}
-  @keyframes pop{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}
+  .overlay{align-items:center;padding:16px}
+  .modal{
+    border-radius:16px;padding:24px;width:400px;max-height:none;
+    transform:scale(0.94);
+    opacity:0;
+    transition:transform .2s ease,opacity .2s ease;
+  }
+  .overlay.open .modal{transform:scale(1);opacity:1}
   .modal-handle{display:none}
   .modal-actions .btn{flex:none}
-  .fab{display:none!important}
   .cnav{width:30px;height:30px}
 }
 @media(max-width:599px){
-  .fab{display:flex}
-  .sec-hdr .btn-gold{display:none} /* replaced by FAB on mobile */
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .fab-wrap{display:flex}
+  .sec-hdr .btn-gold{display:none}
   .cls-name{font-size:12px}
 }
 ::-webkit-scrollbar{width:5px}
@@ -256,8 +294,21 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t1);min-he
 
 </div><!-- /.wrap -->
 
-<!-- FAB for mobile -->
-<button class="fab" onclick="openAdd()" aria-label="タスク追加">＋</button>
+<!-- SPEED DIAL FAB (mobile) -->
+<div class="fab-dim" id="fab-dim" onclick="closeFab()"></div>
+<div class="fab-wrap" id="fab-wrap">
+  <div class="fab-options">
+    <div class="fab-opt" id="fab-opt-w">
+      <span class="fab-lbl">毎週タスク</span>
+      <button class="fab-sub" onclick="fabWeekly()" aria-label="毎週タスクを追加">↻</button>
+    </div>
+    <div class="fab-opt" id="fab-opt-e">
+      <span class="fab-lbl">追加タスク</span>
+      <button class="fab-sub" onclick="fabExtra()" aria-label="追加タスクを追加">＋</button>
+    </div>
+  </div>
+  <button class="fab-main" id="fab-main" onclick="toggleFab()" aria-label="タスクを追加">＋</button>
+</div>
 
 <!-- ADD/EDIT TASK MODAL -->
 <div class="overlay" id="task-modal">
@@ -855,6 +906,23 @@ document.addEventListener('keydown',e=>{
     _as=null;
   }
 });
+
+// ========== SPEED DIAL FAB ==========
+let fabIsOpen = false;
+function toggleFab() {
+  fabIsOpen = !fabIsOpen;
+  document.getElementById('fab-main').classList.toggle('open', fabIsOpen);
+  document.getElementById('fab-dim').classList.toggle('v', fabIsOpen);
+  document.querySelectorAll('.fab-opt').forEach(el => el.classList.toggle('v', fabIsOpen));
+}
+function closeFab() {
+  fabIsOpen = false;
+  document.getElementById('fab-main').classList.remove('open');
+  document.getElementById('fab-dim').classList.remove('v');
+  document.querySelectorAll('.fab-opt').forEach(el => el.classList.remove('v'));
+}
+function fabWeekly() { closeFab(); openAddWeekly(); }
+function fabExtra()  { closeFab(); openAdd(); }
 
 // ========== CLOCK ==========
 setInterval(renderHeader, 60000);
