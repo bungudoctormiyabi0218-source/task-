@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -7,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
   --bg:#080808;
   --s1:#111111;
@@ -30,120 +31,143 @@
   --green-bg:rgba(77,184,122,.09);
   --r:12px;--rsm:8px;
 }
-body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;padding:28px 16px 80px}
-.mono{font-family:'JetBrains Mono',monospace}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;padding:24px 14px 100px;-webkit-font-smoothing:antialiased}
 .wrap{max-width:720px;margin:0 auto}
 
 /* HEADER */
-.hdr{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:28px;padding-bottom:20px;border-bottom:0.5px solid var(--b2)}
-.logo{font-size:10px;letter-spacing:4px;color:var(--t3);font-weight:500;margin-bottom:5px;text-transform:uppercase}
-.hdr-date{font-size:26px;font-weight:300;letter-spacing:-0.5px}
+.hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;padding-bottom:18px;border-bottom:0.5px solid var(--b2)}
+.logo{font-size:10px;letter-spacing:4px;color:var(--t3);font-weight:500;margin-bottom:4px;text-transform:uppercase}
+.hdr-date{font-size:22px;font-weight:300;letter-spacing:-0.3px;line-height:1.2}
 .hdr-date .accent{color:var(--gold);font-weight:500}
-.hdr-date .time{color:var(--t3);font-size:18px;margin-left:6px}
-.hdr-right{display:flex;gap:8px}
-.icon-btn{background:var(--s2);border:0.5px solid var(--b2);border-radius:var(--rsm);width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t2);font-size:16px;transition:.15s;flex-shrink:0}
-.icon-btn:hover{background:var(--s3);color:var(--t1)}
+.hdr-date .time{color:var(--t3);font-size:16px;margin-left:6px}
+.hdr-right{display:flex;gap:8px;flex-shrink:0}
+.icon-btn{background:var(--s2);border:0.5px solid var(--b2);border-radius:var(--rsm);min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t2);font-size:17px;transition:.15s}
+.icon-btn:active{background:var(--s3);color:var(--t1)}
 
 /* STATS */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:24px}
-.stat{background:var(--s1);border:0.5px solid var(--b1);border-radius:var(--r);padding:14px 12px}
-.stat-lbl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--t3);margin-bottom:7px}
-.stat-val{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:500;line-height:1}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:22px}
+.stat{background:var(--s1);border:0.5px solid var(--b1);border-radius:var(--r);padding:14px 14px}
+.stat-lbl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--t3);margin-bottom:6px}
+.stat-val{font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:500;line-height:1}
 .stat-val.r{color:var(--red)}.stat-val.g{color:var(--green)}.stat-val.a{color:var(--gold)}
 
 /* SECTIONS */
 .sec{margin-bottom:20px}
-.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.sec-title{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--t3);display:flex;align-items:center;gap:8px}
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:10px}
+.sec-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--t3);display:flex;align-items:center;gap:8px;flex-shrink:0}
 .sec-title::before{content:'';display:inline-block;width:3px;height:11px;background:var(--gold);border-radius:2px}
-.divider{height:0.5px;background:var(--b1);margin:22px 0}
+.divider{height:0.5px;background:var(--b1);margin:20px 0}
 
 /* TASK CARDS */
 .task-list{display:flex;flex-direction:column;gap:6px}
-.tc{background:var(--s1);border:0.5px solid var(--b1);border-radius:var(--r);padding:13px 15px;display:flex;align-items:flex-start;gap:11px;transition:border-color .2s}
-.tc:hover{border-color:var(--b2)}
+.tc{background:var(--s1);border:0.5px solid var(--b1);border-radius:var(--r);padding:14px 14px;display:flex;align-items:flex-start;gap:12px;transition:border-color .2s}
 .tc.urgent{border-left:2px solid var(--red)}
 .tc.warning{border-left:2px solid var(--amber)}
 .tc.ok{border-left:2px solid var(--green)}
 .tc.done{opacity:.3}
 .tc.done .tn{text-decoration:line-through}
-.chk{width:17px;height:17px;flex-shrink:0;margin-top:3px;cursor:pointer;accent-color:var(--gold)}
+/* Big tap target for checkbox */
+.chk-wrap{flex-shrink:0;width:44px;height:44px;display:flex;align-items:center;justify-content:center;margin:-8px -6px -8px -8px;cursor:pointer}
+.chk{width:20px;height:20px;cursor:pointer;accent-color:var(--gold);pointer-events:none}
 .tc-body{flex:1;min-width:0}
-.tn{font-size:14px;font-weight:500;margin-bottom:5px}
-.tc-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tn{font-size:14px;font-weight:500;margin-bottom:6px;line-height:1.35;word-break:break-all}
+.tc-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .dl-str{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--t2)}
-.dl-full{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--t3);margin-top:3px}
-.chip{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;padding:2px 8px;border-radius:4px}
+.dl-full{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);margin-top:4px}
+.chip{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;padding:3px 8px;border-radius:4px}
 .chip.urgent{background:var(--red-bg);color:var(--red)}
 .chip.warning{background:var(--amber-bg);color:var(--amber)}
 .chip.ok{background:var(--green-bg);color:var(--green)}
 .chip.done{background:var(--b1);color:var(--t3)}
 .chip.next{background:var(--gold-bg);color:var(--gold);border:0.5px solid var(--gold-border)}
-.tag{font-size:10px;padding:2px 7px;border-radius:4px;background:var(--s3);color:var(--t3);border:0.5px solid var(--b2)}
-.tc-actions{display:flex;gap:3px;flex-shrink:0}
-.tbtn{background:none;border:none;color:var(--t3);cursor:pointer;padding:4px 6px;border-radius:6px;font-size:13px;transition:.15s}
-.tbtn:hover{background:var(--s3);color:var(--t1)}
+.tag{font-size:10px;padding:3px 7px;border-radius:4px;background:var(--s3);color:var(--t3);border:0.5px solid var(--b2)}
+.tc-actions{display:flex;gap:0;flex-shrink:0;margin:-4px -4px -4px 0}
+/* Big tap targets for edit/delete */
+.tbtn{background:none;border:none;color:var(--t3);cursor:pointer;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:8px;font-size:15px;transition:.15s}
+.tbtn:active{background:var(--s3);color:var(--t1)}
 
 /* BUTTONS */
-.btn{font-family:'Outfit',sans-serif;display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--rsm);border:0.5px solid var(--b2);background:var(--s2);color:var(--t1);font-size:13px;font-weight:500;cursor:pointer;transition:.15s}
-.btn:hover{background:var(--s3);border-color:var(--b3)}
-.btn:active{transform:scale(.97)}
+.btn{font-family:'Outfit',sans-serif;display:inline-flex;align-items:center;gap:6px;padding:0 16px;height:40px;border-radius:var(--rsm);border:0.5px solid var(--b2);background:var(--s2);color:var(--t1);font-size:13px;font-weight:500;cursor:pointer;transition:.15s;flex-shrink:0}
+.btn:active{transform:scale(.96);background:var(--s3)}
 .btn-gold{background:var(--gold-bg);border-color:var(--gold-border);color:var(--gold)}
-.btn-gold:hover{background:rgba(201,168,78,.15)}
-.btn-sm{padding:5px 11px;font-size:12px}
+.btn-gold:active{background:rgba(201,168,78,.18)}
+.btn-sm{height:36px;padding:0 12px;font-size:12px}
+
+/* FAB — floating add button for mobile */
+.fab{display:none;position:fixed;bottom:24px;right:18px;width:54px;height:54px;border-radius:50%;background:var(--gold);border:none;font-size:26px;color:#000;cursor:pointer;align-items:center;justify-content:center;z-index:50;box-shadow:0 4px 20px rgba(201,168,78,.4);transition:.15s;font-weight:300}
+.fab:active{transform:scale(.93)}
 
 /* CALENDAR */
-.cal-wrap{background:var(--s1);border:0.5px solid var(--b1);border-radius:var(--r);padding:16px;margin-bottom:8px}
-.cal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.cal-wrap{background:var(--s1);border:0.5px solid var(--b1);border-radius:var(--r);padding:14px;margin-bottom:8px}
+.cal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .cal-month{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500}
-.cal-nav{display:flex;gap:6px}
-.cnav{background:var(--s2);border:0.5px solid var(--b2);border-radius:6px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t2);font-size:14px;transition:.15s}
-.cnav:hover{background:var(--s3);color:var(--t1)}
+.cal-nav{display:flex;gap:4px}
+.cnav{background:var(--s2);border:0.5px solid var(--b2);border-radius:6px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t2);font-size:16px;transition:.15s}
+.cnav:active{background:var(--s3);color:var(--t1)}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
-.cdlbl{text-align:center;font-size:9px;letter-spacing:1px;color:var(--t3);padding:4px 0;text-transform:uppercase}
-.cday{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:6px;font-size:12px;color:var(--t2);cursor:default;position:relative;transition:background .15s;gap:2px}
+.cdlbl{text-align:center;font-size:10px;letter-spacing:.5px;color:var(--t3);padding:5px 0;text-transform:uppercase}
+.cday{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:6px;font-size:13px;color:var(--t2);cursor:default;position:relative;transition:background .15s}
 .cday.other{color:var(--t3)}
 .cday.today{background:var(--s3);color:var(--t1);font-weight:600}
 .cday.hd{cursor:pointer}
-.cday.hd:hover{background:var(--s2)}
+.cday.hd:active{background:var(--s2)}
 .cdots{display:flex;gap:2px;position:absolute;bottom:3px}
-.cdot{width:4px;height:4px;border-radius:50%}
+.cdot{width:5px;height:5px;border-radius:50%}
 
 /* SCHEDULE */
-.cls-row{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--s1);border:0.5px solid var(--b1);border-radius:var(--rsm);margin-bottom:6px;transition:.15s}
-.cls-period{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);min-width:46px;line-height:1.4}
-.cls-name{font-size:13px;font-weight:500;flex:1}
-.cls-room{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);background:var(--s3);padding:2px 7px;border-radius:4px}
+.cls-row{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--s1);border:0.5px solid var(--b1);border-radius:var(--rsm);margin-bottom:6px}
+.cls-period{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);min-width:42px;line-height:1.5}
+.cls-name{font-size:13px;font-weight:500;flex:1;min-width:0;word-break:break-all}
+.cls-room{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);background:var(--s3);padding:3px 7px;border-radius:4px;flex-shrink:0}
 .cls-row.cur{border-color:rgba(201,168,78,.3);background:var(--gold-bg)}
 .cls-row.cur .cls-name{color:var(--gold)}
 .cls-row.past{opacity:.35}
-.cls-row.past .cls-name{text-decoration:line-through}
 
 /* AI BOX */
-.ai-box{background:var(--s1);border:0.5px solid var(--b1);border-radius:var(--r);padding:18px;font-size:14px;line-height:1.75;color:var(--t2);min-height:64px;white-space:pre-wrap}
+.ai-box{background:var(--s1);border:0.5px solid var(--b1);border-radius:var(--r);padding:16px;font-size:14px;line-height:1.8;color:var(--t2);min-height:64px;white-space:pre-wrap}
 .ai-box.loading{color:var(--t3);font-style:italic}
 
-/* MODALS */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);z-index:100;align-items:center;justify-content:center;padding:16px}
+/* MODALS — bottom sheet on mobile */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);z-index:100;align-items:flex-end;justify-content:center}
 .overlay.open{display:flex}
-.modal{background:var(--s1);border:0.5px solid var(--b2);border-radius:16px;padding:24px;width:380px;max-width:100%;animation:pop .18s ease}
-@keyframes pop{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}
-.modal-title{font-size:15px;font-weight:600;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
-.modal label{display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3);margin-bottom:5px;margin-top:14px}
+.modal{background:var(--s1);border:0.5px solid var(--b2);border-radius:20px 20px 0 0;padding:20px 20px calc(20px + env(safe-area-inset-bottom));width:100%;max-width:520px;animation:slideup .22s ease;max-height:90vh;overflow-y:auto}
+@keyframes slideup{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-handle{width:40px;height:4px;background:var(--b3);border-radius:2px;margin:0 auto 18px}
+.modal-title{font-size:16px;font-weight:600;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between}
+.modal label{display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3);margin-bottom:6px;margin-top:16px}
 .modal label:first-of-type{margin-top:0}
-.modal input,.modal select,.modal textarea{width:100%;font-family:'Outfit',sans-serif;font-size:14px;padding:9px 12px;border:0.5px solid var(--b2);border-radius:var(--rsm);background:var(--s2);color:var(--t1);outline:none;transition:border-color .15s}
+.modal input,.modal select,.modal textarea{width:100%;font-family:'Outfit',sans-serif;font-size:16px;padding:12px 14px;border:0.5px solid var(--b2);border-radius:var(--rsm);background:var(--s2);color:var(--t1);outline:none;transition:border-color .15s;-webkit-appearance:none}
 .modal input:focus,.modal select:focus{border-color:var(--gold)}
 .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:20px}
-.note{font-size:11px;color:var(--t3);margin-top:7px;line-height:1.6}
+.modal-actions .btn{flex:1;justify-content:center;height:48px;font-size:14px}
+.note{font-size:12px;color:var(--t3);margin-top:8px;line-height:1.6}
 
-/* EMPTY */
+/* ACTION SHEET */
+.as-task-name{font-size:13px;font-weight:500;color:var(--t2);text-align:center;padding:0 0 16px;border-bottom:0.5px solid var(--b2);margin-bottom:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.as-btn{width:100%;font-family:'Outfit',sans-serif;font-size:16px;font-weight:500;padding:15px;border:none;border-radius:var(--r);background:var(--s2);color:var(--t1);cursor:pointer;transition:.15s;margin-bottom:8px;display:block;text-align:center}
+.as-btn:active{background:var(--s3)}
+.as-btn-danger{color:var(--red)}
+.as-btn-cancel{background:none;border:0.5px solid var(--b2);color:var(--t2);margin-top:4px}
 .empty{font-size:13px;color:var(--t3);padding:8px 0;font-style:italic}
 
-/* RESPONSIVE */
-@media(max-width:500px){
-  .stats{grid-template-columns:repeat(2,1fr)}
-  .hdr-date{font-size:20px}
-  .stat-val{font-size:20px}
+/* RESPONSIVE — tablet+ */
+@media(min-width:600px){
+  .stats{grid-template-columns:repeat(4,1fr)}
+  .hdr-date{font-size:26px}
+  body{padding:28px 20px 80px}
+  .overlay{align-items:center}
+  .modal{border-radius:16px;padding:24px;width:400px;max-height:none;animation:pop .18s ease}
+  @keyframes pop{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}
+  .modal-handle{display:none}
+  .modal-actions .btn{flex:none}
+  .fab{display:none!important}
+  .cnav{width:30px;height:30px}
+}
+@media(max-width:599px){
+  .fab{display:flex}
+  .sec-hdr .btn-gold{display:none} /* replaced by FAB on mobile */
+  .cls-name{font-size:12px}
 }
 ::-webkit-scrollbar{width:5px}
 ::-webkit-scrollbar-thumb{background:var(--b2);border-radius:3px}
@@ -185,6 +209,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t1);min-he
 <div class="sec">
   <div class="sec-hdr">
     <div class="sec-title">Weekly — 毎週タスク</div>
+    <button class="btn btn-sm btn-gold" onclick="openAddWeekly()">＋ Add</button>
   </div>
   <div class="task-list" id="weekly-list"></div>
 </div>
@@ -231,12 +256,16 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t1);min-he
 
 </div><!-- /.wrap -->
 
+<!-- FAB for mobile -->
+<button class="fab" onclick="openAdd()" aria-label="タスク追加">＋</button>
+
 <!-- ADD/EDIT TASK MODAL -->
 <div class="overlay" id="task-modal">
   <div class="modal">
+    <div class="modal-handle"></div>
     <div class="modal-title">
       <span id="task-modal-title">Add Task</span>
-      <button class="tbtn" onclick="closeTaskModal()" style="font-size:20px;color:var(--t2)">×</button>
+      <button class="tbtn" onclick="closeTaskModal()" style="font-size:22px;color:var(--t2);width:40px;height:40px">×</button>
     </div>
     <label>タスク名</label>
     <input type="text" id="f-name" placeholder="例：物理レポート" />
@@ -251,12 +280,55 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t1);min-he
   </div>
 </div>
 
+<!-- ACTION SHEET -->
+<div class="overlay" id="action-sheet">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="as-task-name" id="as-name"></div>
+    <div id="as-body"></div>
+  </div>
+</div>
+
+<!-- WEEKLY TASK MODAL -->
+<div class="overlay" id="weekly-modal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">
+      <span>Add Weekly Task</span>
+      <button class="tbtn" onclick="closeWeeklyModal()" style="font-size:22px;color:var(--t2);width:40px;height:40px">×</button>
+    </div>
+    <label>タスク名</label>
+    <input type="text" id="wf-name" placeholder="例：英語レポート" />
+    <label>タグ（省略可）</label>
+    <input type="text" id="wf-tag" placeholder="例：英語" maxlength="6" />
+    <label>締切曜日</label>
+    <select id="wf-day" style="width:100%;font-family:'Outfit',sans-serif;font-size:16px;padding:12px 14px;border:0.5px solid var(--b2);border-radius:var(--rsm);background:var(--s2);color:var(--t1);outline:none;-webkit-appearance:none">
+      <option value="1">月曜日</option>
+      <option value="2">火曜日</option>
+      <option value="3">水曜日</option>
+      <option value="4">木曜日</option>
+      <option value="5" selected>金曜日</option>
+      <option value="6">土曜日</option>
+      <option value="0">日曜日</option>
+    </select>
+    <label>締切時刻</label>
+    <input type="time" id="wf-time" value="10:50" />
+    <label>作業時間の目安（h）</label>
+    <input type="number" id="wf-hours" min="0.5" max="20" step="0.5" value="1" />
+    <div class="modal-actions">
+      <button class="btn" onclick="closeWeeklyModal()">Cancel</button>
+      <button class="btn btn-gold" onclick="saveWeekly()">Save</button>
+    </div>
+  </div>
+</div>
+
 <!-- SETTINGS MODAL -->
 <div class="overlay" id="settings-modal">
   <div class="modal">
+    <div class="modal-handle"></div>
     <div class="modal-title">
       <span>Settings</span>
-      <button class="tbtn" onclick="closeSettings()" style="font-size:20px;color:var(--t2)">×</button>
+      <button class="tbtn" onclick="closeSettings()" style="font-size:22px;color:var(--t2);width:40px;height:40px">×</button>
     </div>
     <label>Anthropic API Key</label>
     <input type="password" id="f-key" placeholder="sk-ant-..." />
@@ -273,9 +345,10 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t1);min-he
 <!-- CALENDAR DAY MODAL -->
 <div class="overlay" id="cal-modal">
   <div class="modal">
+    <div class="modal-handle"></div>
     <div class="modal-title">
       <span id="cal-modal-hdr"></span>
-      <button class="tbtn" onclick="document.getElementById('cal-modal').classList.remove('open')" style="font-size:20px;color:var(--t2)">×</button>
+      <button class="tbtn" onclick="document.getElementById('cal-modal').classList.remove('open')" style="font-size:22px;color:var(--t2);width:40px;height:40px">×</button>
     </div>
     <div id="cal-modal-body"></div>
     <div class="modal-actions"><button class="btn" onclick="document.getElementById('cal-modal').classList.remove('open')">Close</button></div>
@@ -284,7 +357,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t1);min-he
 
 <script>
 // ========== CONSTANTS ==========
-const WT = [
+const DEFAULT_WT = [
   {id:'w1',name:'物理プレレポート',tag:'物理',day:5,h:10,m:50,hours:3},
   {id:'w2',name:'物理レポート',    tag:'物理',day:5,h:10,m:50,hours:5},
   {id:'w3',name:'力学課題',        tag:'力学',day:5,h:17,m:0, hours:1},
@@ -307,6 +380,7 @@ const ML = ['January','February','March','April','May','June','July','August','S
 
 // ========== STATE ==========
 let S = {
+  wt: [],
   weekly: {},
   extra: [],
   apiKey: '',
@@ -322,9 +396,10 @@ function loadState() {
     const raw = JSON.parse(localStorage.getItem('taskos2') || '{}');
     S.apiKey = raw.apiKey || '';
     S.extra = raw.extra || defaultExtra();
+    S.wt = raw.wt || JSON.parse(JSON.stringify(DEFAULT_WT));
 
     const sw = raw.weekly || {};
-    for (const t of WT) {
+    for (const t of S.wt) {
       if (sw[t.id]) {
         let dl = new Date(sw[t.id].deadline);
         const now = new Date();
@@ -339,8 +414,9 @@ function loadState() {
       }
     }
   } catch(_) {
+    S.wt = JSON.parse(JSON.stringify(DEFAULT_WT));
     S.extra = defaultExtra();
-    for (const t of WT) S.weekly[t.id] = {completed:false, deadline:nextDL(t.day,t.h,t.m).toISOString()};
+    for (const t of S.wt) S.weekly[t.id] = {completed:false, deadline:nextDL(t.day,t.h,t.m).toISOString()};
   }
 }
 
@@ -351,7 +427,7 @@ function defaultExtra() {
   ];
 }
 
-function persist() { localStorage.setItem('taskos2', JSON.stringify({weekly:S.weekly,extra:S.extra,apiKey:S.apiKey})); }
+function persist() { localStorage.setItem('taskos2', JSON.stringify({wt:S.wt,weekly:S.weekly,extra:S.extra,apiKey:S.apiKey})); }
 
 // ========== DATE UTILS ==========
 function nextDL(dow, h, m) {
@@ -397,7 +473,7 @@ function renderHeader() {
 // ========== STATS ==========
 function renderStats() {
   const all = [
-    ...WT.map(t=>({deadline:S.weekly[t.id].deadline,done:S.weekly[t.id].completed,hours:t.hours})),
+    ...S.wt.map(t=>({deadline:S.weekly[t.id].deadline,done:S.weekly[t.id].completed,hours:t.hours})),
     ...S.extra
   ];
   const pending = all.filter(t=>!t.done);
@@ -441,16 +517,21 @@ function renderSched() {
 
 // ========== WEEKLY ==========
 function renderWeekly() {
-  document.getElementById('weekly-list').innerHTML = WT.map(t => {
+  const el = document.getElementById('weekly-list');
+  if (!S.wt.length) {
+    el.innerHTML = '<p class="empty">毎週タスクなし。右の ＋Add から追加できます。</p>'; return;
+  }
+  el.innerHTML = S.wt.map(t => {
     const ws = S.weekly[t.id];
     const cd = countdown(ws.deadline);
     return `<div class="tc ${ws.completed?'done':cd.lv}">
-      <input type="checkbox" class="chk" ${ws.completed?'checked':''} onchange="toggleW('${t.id}')" aria-label="${t.name}" />
+      <label class="chk-wrap"><input type="checkbox" class="chk" ${ws.completed?'checked':''} onchange="toggleW('${t.id}')" aria-label="${t.name}" /></label>
       <div class="tc-body">
         <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:5px">
           <span class="tn">${t.name}</span>
-          <span class="tag">${t.tag}</span>
+          ${t.tag?`<span class="tag">${t.tag}</span>`:''}
           <span class="tag">${t.hours}h</span>
+          <span class="tag">${['日','月','火','水','木','金','土'][t.day]}曜</span>
         </div>
         <div class="tc-meta">
           <span class="dl-str">${fmtDL(ws.deadline)}</span>
@@ -459,6 +540,9 @@ function renderWeekly() {
         </div>
         <div class="dl-full">${fmtFull(ws.deadline)}</div>
       </div>
+      <div class="tc-actions">
+        <button class="tbtn" onclick="openAS('weekly','${t.id}')" title="操作">⋯</button>
+      </div>
     </div>`;
   }).join('');
 }
@@ -466,6 +550,73 @@ function renderWeekly() {
 function toggleW(id) {
   S.weekly[id].completed = !S.weekly[id].completed;
   persist(); render();
+}
+
+// ========== ACTION SHEET ==========
+let _as = null; // {type, id}
+
+function openAS(type, id) {
+  _as = {type, id};
+  const name = type === 'weekly'
+    ? S.wt.find(x=>x.id===id)?.name
+    : S.extra.find(x=>x.id===id)?.name;
+  document.getElementById('as-name').textContent = name || '';
+
+  const btns = type === 'extra'
+    ? `<button class="as-btn" onclick="asEdit()">✎ 編集</button>
+       <button class="as-btn as-btn-danger" onclick="asDelete()">削除</button>`
+    : `<button class="as-btn as-btn-danger" onclick="asDelete()">削除</button>`;
+
+  document.getElementById('as-body').innerHTML =
+    btns + `<button class="as-btn as-btn-cancel" onclick="closeAS()">キャンセル</button>`;
+  document.getElementById('action-sheet').classList.add('open');
+}
+
+function closeAS() {
+  document.getElementById('action-sheet').classList.remove('open');
+  _as = null;
+}
+
+function asEdit() {
+  const id = _as.id; closeAS(); editE(id);
+}
+
+function asDelete() {
+  const {type, id} = _as; closeAS();
+  if (type === 'weekly') {
+    S.wt = S.wt.filter(x=>x.id!==id);
+    delete S.weekly[id];
+  } else {
+    S.extra = S.extra.filter(x=>x.id!==id);
+  }
+  persist(); render();
+}
+
+// ========== WEEKLY MODAL ==========
+
+// ========== WEEKLY MODAL ==========
+function openAddWeekly() {
+  document.getElementById('wf-name').value='';
+  document.getElementById('wf-tag').value='';
+  document.getElementById('wf-day').value='5';
+  document.getElementById('wf-time').value='10:50';
+  document.getElementById('wf-hours').value='1';
+  document.getElementById('weekly-modal').classList.add('open');
+  setTimeout(()=>document.getElementById('wf-name').focus(),80);
+}
+function closeWeeklyModal() { document.getElementById('weekly-modal').classList.remove('open'); }
+function saveWeekly() {
+  const name = document.getElementById('wf-name').value.trim();
+  const tag  = document.getElementById('wf-tag').value.trim();
+  const day  = parseInt(document.getElementById('wf-day').value);
+  const time = document.getElementById('wf-time').value;
+  const hrs  = parseFloat(document.getElementById('wf-hours').value);
+  if (!name || !time) { alert('タスク名と時刻は必須です'); return; }
+  const [h, m] = time.split(':').map(Number);
+  const id = 'w' + Date.now();
+  S.wt.push({id, name, tag, day, h, m, hours: hrs||1});
+  S.weekly[id] = {completed: false, deadline: nextDL(day, h, m).toISOString()};
+  persist(); closeWeeklyModal(); render();
 }
 
 // ========== EXTRA ==========
@@ -478,7 +629,7 @@ function renderExtra() {
   el.innerHTML = sorted.map(t => {
     const cd = countdown(t.deadline);
     return `<div class="tc ${t.done?'done':cd.lv}">
-      <input type="checkbox" class="chk" ${t.done?'checked':''} onchange="toggleE(${t.id})" aria-label="${t.name}" />
+      <label class="chk-wrap"><input type="checkbox" class="chk" ${t.done?'checked':''} onchange="toggleE(${t.id})" aria-label="${t.name}" /></label>
       <div class="tc-body">
         <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:5px">
           <span class="tn">${t.name}</span>
@@ -491,8 +642,7 @@ function renderExtra() {
         <div class="dl-full">${fmtFull(t.deadline)}</div>
       </div>
       <div class="tc-actions">
-        <button class="tbtn" onclick="editE(${t.id})" title="編集">✎</button>
-        <button class="tbtn" onclick="delE(${t.id})" title="削除">✕</button>
+        <button class="tbtn" onclick="openAS('extra',${t.id})" title="操作">⋯</button>
       </div>
     </div>`;
   }).join('');
@@ -501,11 +651,6 @@ function renderExtra() {
 function toggleE(id) {
   const t = S.extra.find(x=>x.id===id);
   if(t){t.done=!t.done;persist();render();}
-}
-function delE(id) {
-  if(!confirm('削除しますか？')) return;
-  S.extra = S.extra.filter(x=>x.id!==id);
-  persist(); render();
 }
 function editE(id) {
   const t = S.extra.find(x=>x.id===id);
@@ -546,7 +691,7 @@ function saveTask() {
 // ========== CALENDAR ==========
 function allDL() {
   return [
-    ...WT.map(t=>({name:t.name,deadline:S.weekly[t.id].deadline,done:S.weekly[t.id].completed})),
+    ...S.wt.map(t=>({name:t.name,deadline:S.weekly[t.id].deadline,done:S.weekly[t.id].completed})),
     ...S.extra.map(t=>({name:t.name,deadline:t.deadline,done:t.done}))
   ];
 }
@@ -651,7 +796,7 @@ async function fetchAdvice() {
   }
 
   const pending=[
-    ...WT.map(t=>({name:t.name,deadline:S.weekly[t.id].deadline,done:S.weekly[t.id].completed,hours:t.hours})),
+    ...S.wt.map(t=>({name:t.name,deadline:S.weekly[t.id].deadline,done:S.weekly[t.id].completed,hours:t.hours})),
     ...S.extra
   ].filter(t=>!t.done);
 
@@ -695,14 +840,20 @@ function render() {
 }
 
 // ========== MODAL BG CLOSE ==========
-['task-modal','settings-modal','cal-modal'].forEach(id=>{
+['task-modal','weekly-modal','action-sheet','settings-modal','cal-modal'].forEach(id=>{
   document.getElementById(id).addEventListener('click',e=>{
-    if(e.target.id===id) document.getElementById(id).classList.remove('open');
+    if(e.target.id===id){
+      document.getElementById(id).classList.remove('open');
+      if(id==='action-sheet') _as=null;
+    }
   });
 });
 document.addEventListener('keydown',e=>{
-  if(e.key==='Escape')['task-modal','settings-modal','cal-modal'].forEach(id=>
-    document.getElementById(id).classList.remove('open'));
+  if(e.key==='Escape'){
+    ['task-modal','weekly-modal','action-sheet','settings-modal','cal-modal'].forEach(id=>
+      document.getElementById(id).classList.remove('open'));
+    _as=null;
+  }
 });
 
 // ========== CLOCK ==========
