@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TASK OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080808;
+  --s1:#111111;
+  --s2:#181818;
+  --s3:#222222;
+  --b1:rgba(255,255,255,.05);
+  --b2:rgba(255,255,255,.1);
+  --b3:rgba(255,255,255,.2);
+  --t1:#ede8e0;
+  --t2:#777060;
+  --t3:#3d3a35;
+  --gold:#c9a84e;
+  --gold-bg:rgba(201,168,78,.09);
+  --gold-border:rgba(201,168,78,.25);
+  --red:#e05252;
+  --red-bg:rgba(224,82,82,.09);
+  --amber:#e0943a;
+  --amber-bg:rgba(224,148,58,.09);
+  --green:#4db87a;
+  --green-bg:rgba(77,184,122,.09);
+  --r:12px;--rsm:8px;
+}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;padding:28px 16px 80px}
+.mono{font-family:'JetBrains Mono',monospace}
+.wrap{max-width:720px;margin:0 auto}
+
+/* HEADER */
+.hdr{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:28px;padding-bottom:20px;border-bottom:0.5px solid var(--b2)}
+.logo{font-size:10px;letter-spacing:4px;color:var(--t3);font-weight:500;margin-bottom:5px;text-transform:uppercase}
+.hdr-date{font-size:26px;font-weight:300;letter-spacing:-0.5px}
+.hdr-date .accent{color:var(--gold);font-weight:500}
+.hdr-date .time{color:var(--t3);font-size:18px;margin-left:6px}
+.hdr-right{display:flex;gap:8px}
+.icon-btn{background:var(--s2);border:0.5px solid var(--b2);border-radius:var(--rsm);width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t2);font-size:16px;transition:.15s;flex-shrink:0}
+.icon-btn:hover{background:var(--s3);color:var(--t1)}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:24px}
+.stat{background:var(--s1);border:0.5px solid var(--b1);border-radius:var(--r);padding:14px 12px}
+.stat-lbl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--t3);margin-bottom:7px}
+.stat-val{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:500;line-height:1}
+.stat-val.r{color:var(--red)}.stat-val.g{color:var(--green)}.stat-val.a{color:var(--gold)}
+
+/* SECTIONS */
+.sec{margin-bottom:20px}
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.sec-title{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--t3);display:flex;align-items:center;gap:8px}
+.sec-title::before{content:'';display:inline-block;width:3px;height:11px;background:var(--gold);border-radius:2px}
+.divider{height:0.5px;background:var(--b1);margin:22px 0}
+
+/* TASK CARDS */
+.task-list{display:flex;flex-direction:column;gap:6px}
+.tc{background:var(--s1);border:0.5px solid var(--b1);border-radius:var(--r);padding:13px 15px;display:flex;align-items:flex-start;gap:11px;transition:border-color .2s}
+.tc:hover{border-color:var(--b2)}
+.tc.urgent{border-left:2px solid var(--red)}
+.tc.warning{border-left:2px solid var(--amber)}
+.tc.ok{border-left:2px solid var(--green)}
+.tc.done{opacity:.3}
+.tc.done .tn{text-decoration:line-through}
+.chk{width:17px;height:17px;flex-shrink:0;margin-top:3px;cursor:pointer;accent-color:var(--gold)}
+.tc-body{flex:1;min-width:0}
+.tn{font-size:14px;font-weight:500;margin-bottom:5px}
+.tc-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.dl-str{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--t2)}
+.dl-full{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--t3);margin-top:3px}
+.chip{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;padding:2px 8px;border-radius:4px}
+.chip.urgent{background:var(--red-bg);color:var(--red)}
+.chip.warning{background:var(--amber-bg);color:var(--amber)}
+.chip.ok{background:var(--green-bg);color:var(--green)}
+.chip.done{background:var(--b1);color:var(--t3)}
+.chip.next{background:var(--gold-bg);color:var(--gold);border:0.5px solid var(--gold-border)}
+.tag{font-size:10px;padding:2px 7px;border-radius:4px;background:var(--s3);color:var(--t3);border:0.5px solid var(--b2)}
+.tc-actions{display:flex;gap:3px;flex-shrink:0}
+.tbtn{background:none;border:none;color:var(--t3);cursor:pointer;padding:4px 6px;border-radius:6px;font-size:13px;transition:.15s}
+.tbtn:hover{background:var(--s3);color:var(--t1)}
+
+/* BUTTONS */
+.btn{font-family:'Outfit',sans-serif;display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--rsm);border:0.5px solid var(--b2);background:var(--s2);color:var(--t1);font-size:13px;font-weight:500;cursor:pointer;transition:.15s}
+.btn:hover{background:var(--s3);border-color:var(--b3)}
+.btn:active{transform:scale(.97)}
+.btn-gold{background:var(--gold-bg);border-color:var(--gold-border);color:var(--gold)}
+.btn-gold:hover{background:rgba(201,168,78,.15)}
+.btn-sm{padding:5px 11px;font-size:12px}
+
+/* CALENDAR */
+.cal-wrap{background:var(--s1);border:0.5px solid var(--b1);border-radius:var(--r);padding:16px;margin-bottom:8px}
+.cal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.cal-month{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500}
+.cal-nav{display:flex;gap:6px}
+.cnav{background:var(--s2);border:0.5px solid var(--b2);border-radius:6px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t2);font-size:14px;transition:.15s}
+.cnav:hover{background:var(--s3);color:var(--t1)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cdlbl{text-align:center;font-size:9px;letter-spacing:1px;color:var(--t3);padding:4px 0;text-transform:uppercase}
+.cday{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:6px;font-size:12px;color:var(--t2);cursor:default;position:relative;transition:background .15s;gap:2px}
+.cday.other{color:var(--t3)}
+.cday.today{background:var(--s3);color:var(--t1);font-weight:600}
+.cday.hd{cursor:pointer}
+.cday.hd:hover{background:var(--s2)}
+.cdots{display:flex;gap:2px;position:absolute;bottom:3px}
+.cdot{width:4px;height:4px;border-radius:50%}
+
+/* SCHEDULE */
+.cls-row{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--s1);border:0.5px solid var(--b1);border-radius:var(--rsm);margin-bottom:6px;transition:.15s}
+.cls-period{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);min-width:46px;line-height:1.4}
+.cls-name{font-size:13px;font-weight:500;flex:1}
+.cls-room{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);background:var(--s3);padding:2px 7px;border-radius:4px}
+.cls-row.cur{border-color:rgba(201,168,78,.3);background:var(--gold-bg)}
+.cls-row.cur .cls-name{color:var(--gold)}
+.cls-row.past{opacity:.35}
+.cls-row.past .cls-name{text-decoration:line-through}
+
+/* AI BOX */
+.ai-box{background:var(--s1);border:0.5px solid var(--b1);border-radius:var(--r);padding:18px;font-size:14px;line-height:1.75;color:var(--t2);min-height:64px;white-space:pre-wrap}
+.ai-box.loading{color:var(--t3);font-style:italic}
+
+/* MODALS */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);z-index:100;align-items:center;justify-content:center;padding:16px}
+.overlay.open{display:flex}
+.modal{background:var(--s1);border:0.5px solid var(--b2);border-radius:16px;padding:24px;width:380px;max-width:100%;animation:pop .18s ease}
+@keyframes pop{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-title{font-size:15px;font-weight:600;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
+.modal label{display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3);margin-bottom:5px;margin-top:14px}
+.modal label:first-of-type{margin-top:0}
+.modal input,.modal select,.modal textarea{width:100%;font-family:'Outfit',sans-serif;font-size:14px;padding:9px 12px;border:0.5px solid var(--b2);border-radius:var(--rsm);background:var(--s2);color:var(--t1);outline:none;transition:border-color .15s}
+.modal input:focus,.modal select:focus{border-color:var(--gold)}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:20px}
+.note{font-size:11px;color:var(--t3);margin-top:7px;line-height:1.6}
+
+/* EMPTY */
+.empty{font-size:13px;color:var(--t3);padding:8px 0;font-style:italic}
+
+/* RESPONSIVE */
+@media(max-width:500px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .hdr-date{font-size:20px}
+  .stat-val{font-size:20px}
+}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-thumb{background:var(--b2);border-radius:3px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hdr">
+  <div>
+    <div class="logo">Task OS</div>
+    <div class="hdr-date" id="hdr-date"></div>
+  </div>
+  <div class="hdr-right">
+    <button class="icon-btn" onclick="openSettings()" title="設定（APIキー）">⚙</button>
+  </div>
+</header>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-lbl">Urgent</div><div class="stat-val r" id="sv-urgent">—</div></div>
+  <div class="stat"><div class="stat-lbl">Pending</div><div class="stat-val" id="sv-total">—</div></div>
+  <div class="stat"><div class="stat-lbl">Done</div><div class="stat-val g" id="sv-done">—</div></div>
+  <div class="stat"><div class="stat-lbl">Est. h</div><div class="stat-val a" id="sv-hours">—</div></div>
+</div>
+
+<!-- TODAY'S SCHEDULE -->
+<div class="sec">
+  <div class="sec-hdr">
+    <div class="sec-title">Today's Schedule</div>
+    <button class="btn btn-sm" onclick="toggleSched()" id="sched-btn">展開</button>
+  </div>
+  <div id="sched-wrap" style="display:none"></div>
+</div>
+
+<div class="divider"></div>
+
+<!-- WEEKLY RECURRING -->
+<div class="sec">
+  <div class="sec-hdr">
+    <div class="sec-title">Weekly — 毎週タスク</div>
+  </div>
+  <div class="task-list" id="weekly-list"></div>
+</div>
+
+<div class="divider"></div>
+
+<!-- EXTRA TASKS -->
+<div class="sec">
+  <div class="sec-hdr">
+    <div class="sec-title">Extra — 追加タスク</div>
+    <button class="btn btn-sm btn-gold" onclick="openAdd()">＋ Add</button>
+  </div>
+  <div class="task-list" id="extra-list"></div>
+</div>
+
+<div class="divider"></div>
+
+<!-- CALENDAR -->
+<div class="sec">
+  <div class="sec-hdr"><div class="sec-title">Deadline Calendar</div></div>
+  <div class="cal-wrap">
+    <div class="cal-hdr">
+      <span class="cal-month" id="cal-lbl"></span>
+      <div class="cal-nav">
+        <div class="cnav" onclick="chMonth(-1)">‹</div>
+        <div class="cnav" onclick="chMonth(1)">›</div>
+      </div>
+    </div>
+    <div class="cal-grid" id="cal-grid"></div>
+  </div>
+  <div id="cal-dl-list"></div>
+</div>
+
+<div class="divider"></div>
+
+<!-- AI ADVICE -->
+<div class="sec">
+  <div class="sec-hdr">
+    <div class="sec-title">AI Advisor</div>
+    <button class="btn btn-sm" onclick="fetchAdvice()">↻ Refresh</button>
+  </div>
+  <div id="ai-box" class="ai-box loading">Loading...</div>
+</div>
+
+</div><!-- /.wrap -->
+
+<!-- ADD/EDIT TASK MODAL -->
+<div class="overlay" id="task-modal">
+  <div class="modal">
+    <div class="modal-title">
+      <span id="task-modal-title">Add Task</span>
+      <button class="tbtn" onclick="closeTaskModal()" style="font-size:20px;color:var(--t2)">×</button>
+    </div>
+    <label>タスク名</label>
+    <input type="text" id="f-name" placeholder="例：物理レポート" />
+    <label>締切（日時）</label>
+    <input type="datetime-local" id="f-dl" />
+    <label>作業時間の目安（h）</label>
+    <input type="number" id="f-hours" min="0.5" max="30" step="0.5" value="1" />
+    <div class="modal-actions">
+      <button class="btn" onclick="closeTaskModal()">Cancel</button>
+      <button class="btn btn-gold" onclick="saveTask()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div class="overlay" id="settings-modal">
+  <div class="modal">
+    <div class="modal-title">
+      <span>Settings</span>
+      <button class="tbtn" onclick="closeSettings()" style="font-size:20px;color:var(--t2)">×</button>
+    </div>
+    <label>Anthropic API Key</label>
+    <input type="password" id="f-key" placeholder="sk-ant-..." />
+    <p class="note">
+      <a href="https://console.anthropic.com" style="color:var(--gold)">console.anthropic.com</a> でAPIキーを取得できます。<br>キーはブラウザのローカルストレージのみに保存されます。
+    </p>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeSettings()">Cancel</button>
+      <button class="btn btn-gold" onclick="saveSettings()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- CALENDAR DAY MODAL -->
+<div class="overlay" id="cal-modal">
+  <div class="modal">
+    <div class="modal-title">
+      <span id="cal-modal-hdr"></span>
+      <button class="tbtn" onclick="document.getElementById('cal-modal').classList.remove('open')" style="font-size:20px;color:var(--t2)">×</button>
+    </div>
+    <div id="cal-modal-body"></div>
+    <div class="modal-actions"><button class="btn" onclick="document.getElementById('cal-modal').classList.remove('open')">Close</button></div>
+  </div>
+</div>
+
+<script>
+// ========== CONSTANTS ==========
+const WT = [
+  {id:'w1',name:'物理プレレポート',tag:'物理',day:5,h:10,m:50,hours:3},
+  {id:'w2',name:'物理レポート',    tag:'物理',day:5,h:10,m:50,hours:5},
+  {id:'w3',name:'力学課題',        tag:'力学',day:5,h:17,m:0, hours:1},
+  {id:'w4',name:'生物学課題',      tag:'生物',day:2,h:15,m:10,hours:1},
+  {id:'w5',name:'地学課題',        tag:'地学',day:4,h:8, m:0, hours:1},
+];
+
+const TT = {
+  1:[{p:2,n:'化学1',r:'5334'},{p:3,n:'倫理学A',r:'5334'},{p:4,n:'物理数学及演習2',r:'5133'}],
+  2:[{p:2,n:'力学及演習1',r:'5136'},{p:3,n:'電磁気学及演習1',r:'5136'},{p:4,n:'生物学1',r:'5533'}],
+  3:[{p:2,n:'電磁気学及演習1',r:'5136'},{p:3,n:'力学及演習1',r:'5136'},{p:4,n:'物理数学及演習2',r:'5133'},{p:5,n:'教育の方法と技術',r:'6317'},{p:6,n:'生物学実験I',r:'2338'}],
+  4:[{p:2,n:'英語講読演習3',r:'6210'},{p:3,n:'地学1',r:'5533'},{p:5,n:'教育課程と総合的な学習の時間',r:'6318'},{p:6,n:'地学実験I',r:'未登録'}],
+  5:[{p:2,n:'物理学実験1',r:'1020'},{p:3,n:'物理学実験1',r:'1020'},{p:4,n:'物理学実験1',r:'1020'},{p:5,n:'生徒指導と特別活動',r:'6302'}],
+  6:[{p:3,n:'英語表現演習3',r:'6302'}],
+};
+const PT = {1:{s:'09:00',e:'10:40'},2:{s:'10:50',e:'12:30'},3:{s:'13:20',e:'15:00'},4:{s:'15:10',e:'16:50'},5:{s:'17:00',e:'18:40'},6:{s:'18:50',e:'20:30'}};
+const DL = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
+const DJ = ['日','月','火','水','木','金','土'];
+const ML = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+// ========== STATE ==========
+let S = {
+  weekly: {},
+  extra: [],
+  apiKey: '',
+  calY: new Date().getFullYear(),
+  calM: new Date().getMonth(),
+};
+let editId = null;
+let schedOpen = false;
+
+// ========== STORAGE ==========
+function loadState() {
+  try {
+    const raw = JSON.parse(localStorage.getItem('taskos2') || '{}');
+    S.apiKey = raw.apiKey || '';
+    S.extra = raw.extra || defaultExtra();
+
+    const sw = raw.weekly || {};
+    for (const t of WT) {
+      if (sw[t.id]) {
+        let dl = new Date(sw[t.id].deadline);
+        const now = new Date();
+        let completed = sw[t.id].completed;
+        while (dl < now) {
+          dl = new Date(dl.getTime() + 7*24*3600*1000);
+          completed = false;
+        }
+        S.weekly[t.id] = {completed, deadline: dl.toISOString()};
+      } else {
+        S.weekly[t.id] = {completed: false, deadline: nextDL(t.day,t.h,t.m).toISOString()};
+      }
+    }
+  } catch(_) {
+    S.extra = defaultExtra();
+    for (const t of WT) S.weekly[t.id] = {completed:false, deadline:nextDL(t.day,t.h,t.m).toISOString()};
+  }
+}
+
+function defaultExtra() {
+  return [
+    {id:10001, name:'生物学実験 第4・5回レポート', deadline:'2026-06-03T23:59', hours:4, done:false},
+    {id:10002, name:'地学実験 寄居実習レポート',    deadline:'2026-06-04T23:59', hours:3, done:false},
+  ];
+}
+
+function persist() { localStorage.setItem('taskos2', JSON.stringify({weekly:S.weekly,extra:S.extra,apiKey:S.apiKey})); }
+
+// ========== DATE UTILS ==========
+function nextDL(dow, h, m) {
+  const now = new Date();
+  const d = new Date(); d.setHours(h,m,0,0);
+  let diff = dow - now.getDay();
+  if (diff < 0) diff += 7;
+  if (diff === 0 && now >= d) diff = 7;
+  d.setDate(d.getDate() + diff);
+  return d;
+}
+
+function countdown(iso) {
+  const ms = new Date(iso) - new Date();
+  if (ms < 0) return {label:'OVERDUE',lv:'urgent'};
+  const h = Math.floor(ms/3600000);
+  const d = Math.floor(h/24);
+  if (h < 24) return {label:`${h}h`, lv:'urgent'};
+  if (d <= 2)  return {label:`${d}d ${h%24}h`, lv:'warning'};
+  return {label:`${d}d`, lv:'ok'};
+}
+
+function fmtDL(iso) {
+  const d = new Date(iso);
+  return `${d.getMonth()+1}/${d.getDate()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+function fmtFull(iso) {
+  const d = new Date(iso);
+  return `${d.getFullYear()}.${pad(d.getMonth()+1)}.${pad(d.getDate())} (${DJ[d.getDay()]})`;
+}
+function pad(n) { return String(n).padStart(2,'0'); }
+
+// ========== HEADER ==========
+function renderHeader() {
+  const n = new Date();
+  const dateStr = `${n.getFullYear()}.${pad(n.getMonth()+1)}.${pad(n.getDate())}`;
+  const dayStr = DL[n.getDay()];
+  const time = `${pad(n.getHours())}:${pad(n.getMinutes())}`;
+  document.getElementById('hdr-date').innerHTML =
+    `${dateStr} <span class="accent">${dayStr}</span><span class="time">${time}</span>`;
+}
+
+// ========== STATS ==========
+function renderStats() {
+  const all = [
+    ...WT.map(t=>({deadline:S.weekly[t.id].deadline,done:S.weekly[t.id].completed,hours:t.hours})),
+    ...S.extra
+  ];
+  const pending = all.filter(t=>!t.done);
+  document.getElementById('sv-urgent').textContent = pending.filter(t=>countdown(t.deadline).lv==='urgent').length;
+  document.getElementById('sv-total').textContent  = pending.length;
+  document.getElementById('sv-done').textContent   = all.filter(t=>t.done).length;
+  document.getElementById('sv-hours').textContent  = pending.reduce((s,t)=>s+(t.hours||0),0).toFixed(1);
+}
+
+// ========== SCHEDULE ==========
+function toggleSched() {
+  schedOpen = !schedOpen;
+  document.getElementById('sched-btn').textContent = schedOpen ? '折りたたむ' : '展開';
+  document.getElementById('sched-wrap').style.display = schedOpen ? 'block' : 'none';
+  renderSched();
+}
+
+function renderSched() {
+  if (!schedOpen) return;
+  const wrap = document.getElementById('sched-wrap');
+  const now = new Date();
+  const cls = TT[now.getDay()] || [];
+  if (!cls.length) {
+    wrap.innerHTML = '<p class="empty">今日は授業なし</p>'; return;
+  }
+  wrap.innerHTML = cls.map(c => {
+    const t = PT[c.p];
+    const [sh,sm] = t.s.split(':').map(Number);
+    const [eh,em] = t.e.split(':').map(Number);
+    const start = new Date(now); start.setHours(sh,sm,0,0);
+    const end   = new Date(now); end.setHours(eh,em,0,0);
+    const cur   = now>=start && now<=end;
+    const past  = now>end;
+    return `<div class="cls-row ${cur?'cur':past?'past':''}">
+      <div class="cls-period">${c.p}限<br>${t.s}</div>
+      <div class="cls-name">${c.n}</div>
+      <div class="cls-room">${c.r}</div>
+    </div>`;
+  }).join('');
+}
+
+// ========== WEEKLY ==========
+function renderWeekly() {
+  document.getElementById('weekly-list').innerHTML = WT.map(t => {
+    const ws = S.weekly[t.id];
+    const cd = countdown(ws.deadline);
+    return `<div class="tc ${ws.completed?'done':cd.lv}">
+      <input type="checkbox" class="chk" ${ws.completed?'checked':''} onchange="toggleW('${t.id}')" aria-label="${t.name}" />
+      <div class="tc-body">
+        <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:5px">
+          <span class="tn">${t.name}</span>
+          <span class="tag">${t.tag}</span>
+          <span class="tag">${t.hours}h</span>
+        </div>
+        <div class="tc-meta">
+          <span class="dl-str">${fmtDL(ws.deadline)}</span>
+          <span class="chip ${ws.completed?'done':cd.lv}">${ws.completed?'DONE':cd.label}</span>
+          ${ws.completed?`<span class="chip next">NEXT: ${fmtDL(ws.deadline)}</span>`:''}
+        </div>
+        <div class="dl-full">${fmtFull(ws.deadline)}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleW(id) {
+  S.weekly[id].completed = !S.weekly[id].completed;
+  persist(); render();
+}
+
+// ========== EXTRA ==========
+function renderExtra() {
+  const el = document.getElementById('extra-list');
+  if (!S.extra.length) {
+    el.innerHTML = '<p class="empty">追加タスクなし。上の ＋Add から追加できます。</p>'; return;
+  }
+  const sorted = [...S.extra].sort((a,b)=>new Date(a.deadline)-new Date(b.deadline));
+  el.innerHTML = sorted.map(t => {
+    const cd = countdown(t.deadline);
+    return `<div class="tc ${t.done?'done':cd.lv}">
+      <input type="checkbox" class="chk" ${t.done?'checked':''} onchange="toggleE(${t.id})" aria-label="${t.name}" />
+      <div class="tc-body">
+        <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:5px">
+          <span class="tn">${t.name}</span>
+          ${t.hours?`<span class="tag">${t.hours}h</span>`:''}
+        </div>
+        <div class="tc-meta">
+          <span class="dl-str">${fmtDL(t.deadline)}</span>
+          <span class="chip ${t.done?'done':cd.lv}">${t.done?'DONE':cd.label}</span>
+        </div>
+        <div class="dl-full">${fmtFull(t.deadline)}</div>
+      </div>
+      <div class="tc-actions">
+        <button class="tbtn" onclick="editE(${t.id})" title="編集">✎</button>
+        <button class="tbtn" onclick="delE(${t.id})" title="削除">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleE(id) {
+  const t = S.extra.find(x=>x.id===id);
+  if(t){t.done=!t.done;persist();render();}
+}
+function delE(id) {
+  if(!confirm('削除しますか？')) return;
+  S.extra = S.extra.filter(x=>x.id!==id);
+  persist(); render();
+}
+function editE(id) {
+  const t = S.extra.find(x=>x.id===id);
+  if(!t) return;
+  editId = id;
+  document.getElementById('task-modal-title').textContent='Edit Task';
+  document.getElementById('f-name').value = t.name;
+  document.getElementById('f-dl').value = t.deadline.slice(0,16);
+  document.getElementById('f-hours').value = t.hours||1;
+  document.getElementById('task-modal').classList.add('open');
+}
+
+// ========== TASK MODAL ==========
+function openAdd() {
+  editId = null;
+  document.getElementById('task-modal-title').textContent='Add Task';
+  document.getElementById('f-name').value='';
+  document.getElementById('f-dl').value='';
+  document.getElementById('f-hours').value='1';
+  document.getElementById('task-modal').classList.add('open');
+  setTimeout(()=>document.getElementById('f-name').focus(),80);
+}
+function closeTaskModal() { document.getElementById('task-modal').classList.remove('open'); }
+function saveTask() {
+  const name = document.getElementById('f-name').value.trim();
+  const dl   = document.getElementById('f-dl').value;
+  const h    = parseFloat(document.getElementById('f-hours').value);
+  if(!name||!dl){alert('タスク名と締切は必須です');return;}
+  if(editId){
+    const t=S.extra.find(x=>x.id===editId);
+    if(t){t.name=name;t.deadline=dl;t.hours=h||1;}
+  } else {
+    S.extra.push({id:Date.now(),name,deadline:dl,hours:h||1,done:false});
+  }
+  persist(); closeTaskModal(); render();
+}
+
+// ========== CALENDAR ==========
+function allDL() {
+  return [
+    ...WT.map(t=>({name:t.name,deadline:S.weekly[t.id].deadline,done:S.weekly[t.id].completed})),
+    ...S.extra.map(t=>({name:t.name,deadline:t.deadline,done:t.done}))
+  ];
+}
+
+function renderCal() {
+  const Y=S.calY, M=S.calM;
+  const dl = allDL();
+  document.getElementById('cal-lbl').textContent=`${ML[M].toUpperCase()} ${Y}`;
+
+  const first = new Date(Y,M,1).getDay();
+  const last  = new Date(Y,M+1,0).getDate();
+  const today = new Date(); today.setHours(0,0,0,0);
+
+  const dlMap = {};
+  for(const d of dl){
+    const dd=new Date(d.deadline);
+    if(dd.getFullYear()===Y&&dd.getMonth()===M){
+      const k=dd.getDate();
+      if(!dlMap[k]) dlMap[k]=[];
+      dlMap[k].push(d);
+    }
+  }
+
+  let h = DL.map(d=>`<div class="cdlbl">${d[0]}</div>`).join('');
+  for(let i=0;i<first;i++) h+='<div class="cday other"></div>';
+  for(let day=1;day<=last;day++){
+    const dt=new Date(Y,M,day);
+    const isT = dt.getTime()===today.getTime();
+    const isPast = dt<today && !isT;
+    const entries = dlMap[day]||[];
+    const dots = entries.slice(0,4).map(e=>{
+      const cd=countdown(e.deadline);
+      const c = e.done?'var(--t3)':cd.lv==='urgent'?'var(--red)':cd.lv==='warning'?'var(--amber)':'var(--green)';
+      return `<div class="cdot" style="background:${c}"></div>`;
+    }).join('');
+    h+=`<div class="cday ${isT?'today':''} ${entries.length?'hd':''}" 
+      ${entries.length?`onclick="showCalDay(${Y},${M},${day})"`:''}
+      style="${isPast&&!isT?'color:var(--t3)':''}">
+      <span>${day}</span>
+      ${dots?`<div class="cdots">${dots}</div>`:''}
+    </div>`;
+  }
+  document.getElementById('cal-grid').innerHTML=h;
+
+  // Upcoming deadline list
+  const upcoming = dl.filter(d=>!d.done).sort((a,b)=>new Date(a.deadline)-new Date(b.deadline));
+  document.getElementById('cal-dl-list').innerHTML = upcoming.map(d=>{
+    const cd=countdown(d.deadline);
+    return `<div style="display:flex;align-items:center;gap:10px;padding:9px 14px;background:var(--s1);border:0.5px solid var(--b1);border-radius:var(--rsm);margin-bottom:6px">
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:500;margin-bottom:2px">${d.name}</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3)">${fmtFull(d.deadline)} · ${fmtDL(d.deadline)}</div>
+      </div>
+      <span class="chip ${cd.lv}">${cd.label}</span>
+    </div>`;
+  }).join('');
+}
+
+function chMonth(dir) {
+  S.calM+=dir;
+  if(S.calM>11){S.calM=0;S.calY++;}
+  if(S.calM<0){S.calM=11;S.calY--;}
+  renderCal();
+}
+
+function showCalDay(Y,M,d) {
+  const dl=allDL().filter(t=>{
+    const dd=new Date(t.deadline);
+    return dd.getFullYear()===Y&&dd.getMonth()===M&&dd.getDate()===d;
+  });
+  document.getElementById('cal-modal-hdr').textContent=`${Y}.${pad(M+1)}.${pad(d)} (${DJ[new Date(Y,M,d).getDay()]})`;
+  document.getElementById('cal-modal-body').innerHTML = dl.length
+    ? dl.map(t=>`<div style="padding:10px 0;border-bottom:0.5px solid var(--b1)">
+        <div style="font-size:14px;font-weight:500;margin-bottom:3px">${t.name}</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--t2)">${fmtDL(t.deadline)}</div>
+      </div>`).join('')
+    : '<p class="empty">この日に締切はありません</p>';
+  document.getElementById('cal-modal').classList.add('open');
+}
+
+// ========== SETTINGS ==========
+function openSettings() {
+  document.getElementById('f-key').value=S.apiKey||'';
+  document.getElementById('settings-modal').classList.add('open');
+}
+function closeSettings() { document.getElementById('settings-modal').classList.remove('open'); }
+function saveSettings() {
+  S.apiKey=document.getElementById('f-key').value.trim();
+  persist(); closeSettings(); fetchAdvice();
+}
+
+// ========== AI ADVICE ==========
+async function fetchAdvice() {
+  const el=document.getElementById('ai-box');
+  el.className='ai-box loading';
+  el.textContent='Generating advice...';
+
+  if(!S.apiKey){
+    el.className='ai-box';
+    el.textContent='⚙  右上の設定アイコン → APIキーを入力すると、AIによるアドバイスが表示されます。\nconsole.anthropic.com でキーを取得できます。';
+    return;
+  }
+
+  const pending=[
+    ...WT.map(t=>({name:t.name,deadline:S.weekly[t.id].deadline,done:S.weekly[t.id].completed,hours:t.hours})),
+    ...S.extra
+  ].filter(t=>!t.done);
+
+  const summary=pending.length
+    ?pending.map(t=>`「${t.name}」締切${fmtDL(t.deadline)}(残${countdown(t.deadline).label}), 目安${t.hours}h`).join('\n')
+    :null;
+
+  const prompt=summary
+    ?`理工系大学生の今週のタスク:\n${summary}\n\n今日どれから手をつけるべきか、優先度と理由を含む実践的なアドバイスを3〜4文で。フレンドリーかつ簡潔に。`
+    :'すべてのタスクが完了しています。一言だけ労ってください。';
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-api-key':S.apiKey,
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-allow-browser':'true'
+      },
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:300,messages:[{role:'user',content:prompt}]})
+    });
+    const data=await res.json();
+    if(data.error) throw new Error(data.error.message);
+    el.className='ai-box';
+    el.textContent=data.content?.map(i=>i.text||'').join('')||'取得できませんでした。';
+  }catch(e){
+    el.className='ai-box';
+    el.textContent=`エラー: ${e.message}`;
+  }
+}
+
+// ========== RENDER ==========
+function render() {
+  renderHeader();
+  renderStats();
+  renderSched();
+  renderWeekly();
+  renderExtra();
+  renderCal();
+}
+
+// ========== MODAL BG CLOSE ==========
+['task-modal','settings-modal','cal-modal'].forEach(id=>{
+  document.getElementById(id).addEventListener('click',e=>{
+    if(e.target.id===id) document.getElementById(id).classList.remove('open');
+  });
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')['task-modal','settings-modal','cal-modal'].forEach(id=>
+    document.getElementById(id).classList.remove('open'));
+});
+
+// ========== CLOCK ==========
+setInterval(renderHeader, 60000);
+// Re-check deadlines every 5 min
+setInterval(()=>{loadState();render();}, 300000);
+
+// ========== INIT ==========
+loadState();
+render();
+fetchAdvice();
+</script>
+</body>
+</html>
