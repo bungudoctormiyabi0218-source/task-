@@ -134,6 +134,64 @@ footer p{font-size:12px;font-weight:480;letter-spacing:.01em;color:var(--color-a
 .fixprog{position:fixed;right:20px;bottom:20px;z-index:40;background:rgba(30,30,42,.85);backdrop-filter:blur(14px);opacity:0;pointer-events:none;transition:opacity .3s}
 .fixprog.show{opacity:1;pointer-events:auto}
 
+/* ---------- hero motion ---------- */
+@keyframes rise{from{opacity:0;transform:translateY(22px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+.hero .in>*{animation:rise 1s cubic-bezier(.2,.7,.2,1) both}
+.hero .in>*:nth-child(2){animation-delay:.12s}.hero .in>*:nth-child(3){animation-delay:.26s}
+.hero .in>*:nth-child(4){animation-delay:.4s}.hero .in>*:nth-child(5){animation-delay:.52s}.hero .in>*:nth-child(6){animation-delay:.62s}
+.hero svg.ridge{will-change:transform}
+.pulse{position:absolute;left:50%;top:44%;width:min(70vw,640px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;border:1px solid rgba(237,237,243,.12);pointer-events:none}
+.pulse::before,.pulse::after{content:"";position:absolute;inset:0;border-radius:50%;border:1px solid rgba(237,237,243,.18);animation:ping 7s ease-out infinite}
+.pulse::after{animation-delay:3.5s}
+@keyframes ping{from{transform:scale(.55);opacity:.9}to{transform:scale(1.35);opacity:0}}
+
+/* ---------- why ---------- */
+.statement{font-family:var(--font-display);font-weight:480;font-size:clamp(30px,6.2vw,72px);line-height:1.22;letter-spacing:.01em;max-width:15em;margin:0 0 28px}
+.statement span{color:var(--color-ash-text)}
+.marquee{overflow:hidden;margin:56px -24px 0;border-block:1px solid rgba(112,112,125,.3);padding:22px 0;mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.marquee .tr{display:flex;width:max-content;animation:slide 38s linear infinite}
+.marquee b{font-family:var(--font-display);font-weight:480;font-size:clamp(34px,6vw,64px);letter-spacing:.04em;color:transparent;-webkit-text-stroke:1px rgba(237,237,243,.5);padding:0 .5em;white-space:nowrap}
+.marquee b.f{color:var(--color-ivory-text);-webkit-text-stroke:0}
+@keyframes slide{to{transform:translateX(-50%)}}
+.whys{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:56px}
+.why{padding:32px;display:flex;flex-direction:column;gap:14px;transition:background .3s;position:relative;overflow:hidden}
+.why:hover{background:#242433}
+.why .k{font-size:11px;letter-spacing:.24em;color:var(--color-ash-text);font-weight:480}
+.why h3{font-size:clamp(22px,2.4vw,28px);line-height:1.25;letter-spacing:.015em}
+.why p{font-size:15px;line-height:1.8;color:var(--color-ash-text)}
+.why svg{width:56px;height:56px;margin-bottom:6px;stroke:var(--color-ivory-text);fill:none;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
+.why::after{content:"";position:absolute;right:-60px;bottom:-60px;width:180px;height:180px;border-radius:50%;border:1px solid rgba(237,237,243,.08);transition:transform .6s}
+.why:hover::after{transform:scale(1.5)}
+@media(max-width:900px){.whys{grid-template-columns:1fr 1fr}.marquee{margin-inline:-16px}}
+@media(max-width:600px){.whys{grid-template-columns:1fr}.why{padding:26px}}
+
+/* ---------- mood picker ---------- */
+.moods{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px}
+.mood{height:48px;padding:0 22px;border-radius:40px;border:1px solid var(--color-slate-border);background:transparent;color:var(--color-ivory-text);font-size:15px;cursor:pointer;transition:background .2s,border-color .2s}
+.mood:hover{border-color:var(--color-ivory-text)}
+.mood.on{background:var(--color-ivory-text);color:var(--color-onyx-canvas);border-color:var(--color-ivory-text)}
+.pickout{padding:32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;min-height:120px}
+.pk{background:var(--color-onyx-canvas);border-radius:var(--radius-card);padding:20px;display:grid;grid-template-columns:96px 1fr;gap:18px;align-items:center;animation:rise .6s both}
+.pk .poster{border-radius:6px}.pk .poster::after,.pk .poster .en,.pk .poster .ord{display:none}
+.pk .lab{font-size:11px;letter-spacing:.18em;color:var(--color-ash-text);margin-bottom:6px}
+.pk h3{font-size:18px;line-height:1.35;margin-bottom:8px}
+.pk p{font-size:14px;color:var(--color-ash-text);line-height:1.65;margin-bottom:14px}
+.pk button{height:36px;padding:0 16px;border-radius:40px;border:1px solid var(--color-ivory-text);background:transparent;color:var(--color-ivory-text);font-size:13px;cursor:pointer}
+.pk button:hover{background:rgba(237,237,243,.08)}
+.pickhint{color:var(--color-ash-text);font-size:15px;align-self:center}
+
+/* ---------- share ---------- */
+.share{margin-top:72px;padding:40px clamp(24px,5vw,56px);display:grid;grid-template-columns:1fr 1.1fr;gap:40px;align-items:center}
+.share h3{font-size:clamp(24px,3.4vw,36px);line-height:1.25;letter-spacing:.015em;margin-bottom:12px}
+.share p.d{color:var(--color-ash-text);font-size:15px;line-height:1.8}
+.msg{background:var(--color-onyx-canvas);border-radius:var(--radius-card);padding:22px 24px;font-size:15px;line-height:1.85;white-space:pre-wrap}
+.share .row{display:flex;gap:12px;align-items:center;margin-top:16px;flex-wrap:wrap}
+.share .row span{font-size:13px;color:var(--color-ash-text)}
+@media(max-width:820px){.share{grid-template-columns:1fr;gap:24px}}
+
+.hype{font-family:var(--font-display);font-weight:480;font-size:clamp(18px,2.4vw,22px);line-height:1.6;letter-spacing:.01em;margin:0 0 4px;padding-left:18px;border-left:1px solid var(--color-ivory-text)}
+@media(prefers-reduced-motion:reduce){.hero .in>*,.pk{animation:none}.marquee .tr,.pulse::before,.pulse::after{animation:none}}
+
 /* ---------- detail overlay ---------- */
 .ov{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(23,23,33,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
 .ov.open{display:flex}
@@ -175,16 +233,17 @@ footer p{font-size:12px;font-weight:480;letter-spacing:.01em;color:var(--color-a
       <svg viewBox="0 0 26 26" fill="none" stroke="#ededf3" stroke-width="1.5"><circle cx="13" cy="13" r="11"/><circle cx="13" cy="13" r="6.5"/><circle cx="13" cy="13" r="2" fill="#ededf3"/></svg>
       WATCH GUIDE
     </a>
+    <a class="pill" href="#why">魅力</a>
+    <a class="pill" href="#pick">気分で選ぶ</a>
     <a class="pill" href="#route">見る順番</a>
-    <a class="pill" href="#t1">① 最低限</a>
-    <a class="pill" href="#t2">② なおよし</a>
-    <a class="pill" href="#t3">③ 面白かったら</a>
+    <a class="pill" href="#t1">作品リスト</a>
     <a class="btn primary" href="#t1">①から見始める</a>
   </div>
 </nav>
 
 <header class="hero" id="top">
   <div class="sky"></div>
+  <div class="pulse" aria-hidden="true"></div>
   <svg class="stars" id="stars" aria-hidden="true"></svg>
   <svg class="ridge" viewBox="0 0 1440 520" preserveAspectRatio="none" aria-hidden="true">
     <defs>
@@ -220,6 +279,26 @@ footer p{font-size:12px;font-weight:480;letter-spacing:.01em;color:var(--color-a
     <div class="card"><div class="t"><i>3</i><h3>面白かったら</h3></div><p>ハマったら見てほしい。ドゥームズデイ後でもOK</p></div>
   </div>
 
+  <section id="why">
+    <div class="statement rv">ヒーローが集まる瞬間は、<span>何度見ても鳥肌が立つ。</span></div>
+    <p class="lead rv" style="color:var(--color-ash-text);max-width:34em;font-size:17px;line-height:1.9">MARVELは、10年以上かけて描かれてきた一つの大きな物語です。笑えて、泣けて、かっこいい。しかも、知らなくても5本で追いつけます。</p>
+    <div class="marquee rv" aria-hidden="true"><div class="tr" id="tr"></div></div>
+    <div class="whys">
+      <article class="card why rv"><svg viewBox="0 0 56 56"><circle cx="12" cy="14" r="5"/><circle cx="44" cy="14" r="5"/><circle cx="28" cy="42" r="5"/><path d="M16 17l9 20M40 17l-9 20M17 14h22"/></svg><div class="k">CONNECTED</div><h3>全部が、つながっている</h3><p>別々の映画が、実は一つの大きな物語。1本見るたびに、前に見たシーンの意味が変わる気持ちよさがあります。</p></article>
+      <article class="card why rv"><svg viewBox="0 0 56 56"><circle cx="28" cy="20" r="9"/><path d="M10 50c2-12 10-18 18-18s16 6 18 18"/></svg><div class="k">HUMAN</div><h3>ヒーローが、人間くさい</h3><p>完璧じゃない。失敗して、迷って、ケンカもする。それでも立ち上がる姿に、気づくと本気で応援しています。</p></article>
+      <article class="card why rv"><svg viewBox="0 0 56 56"><path d="M8 34c0-12 8-20 20-20s20 8 20 20"/><path d="M18 40c3 5 17 5 20 0"/><circle cx="21" cy="30" r="1.6"/><circle cx="35" cy="30" r="1.6"/></svg><div class="k">LAUGH &amp; CRY</div><h3>笑えて、泣ける</h3><p>アクションだけじゃありません。コメディ、青春、SF、サスペンス。作品ごとに味が違い、気軽に見られるものから重いものまであります。</p></article>
+      <article class="card why rv"><svg viewBox="0 0 56 56"><rect x="6" y="12" width="44" height="30" rx="3"/><path d="M20 50h16M28 42v8"/><path d="M24 22l10 5-10 5z"/></svg><div class="k">SPECTACLE</div><h3>映像と音楽が、とにかく豪華</h3><p>宇宙も魔法の世界も、画面いっぱいの大迫力。大きな画面と良い音で見るほど、気持ちが上がります。</p></article>
+      <article class="card why rv"><svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="20"/><circle cx="28" cy="28" r="11"/><circle cx="28" cy="28" r="3"/></svg><div class="k">YOUR HERO</div><h3>自分の「推し」が見つかる</h3><p>天才実業家、魔術師、高校生、宇宙のはぐれ者。ヒーローの数だけ入口があるので、好きな人が必ず見つかります。</p></article>
+      <article class="card why rv"><svg viewBox="0 0 56 56"><path d="M8 40l8-8 8 8 8-16 8 16 8-8"/><path d="M8 48h40"/><circle cx="44" cy="12" r="4"/></svg><div class="k">AFTER CREDITS</div><h3>終わったあとも、楽しい</h3><p>エンドロールの後にもおまけ映像があります。次への仕掛けが見つかり、見終わったあとに友達と語りたくなります。</p></article>
+    </div>
+  </section>
+
+  <section id="pick">
+    <div class="sh rv"><h2>今の気分で選ぶ</h2><div class="note">タップすると、ぴったりの作品を出します</div></div>
+    <div class="moods rv" id="moods" role="group" aria-label="気分"></div>
+    <div class="card pickout rv" id="pickout" aria-live="polite"></div>
+  </section>
+
   <section id="route">
     <div class="sh rv"><h2>おすすめの見る順番</h2><div class="note">①＋②</div></div>
     <div class="card route-card rv">
@@ -242,6 +321,19 @@ footer p{font-size:12px;font-weight:480;letter-spacing:.01em;color:var(--color-a
     <div class="sh rv"><div class="idx">3</div><h2>面白かったらこれも見て！</h2><div class="note">ドゥームズデイの後でもOK</div></div>
     <div class="grid" id="g3"></div>
   </section>
+
+  <div class="card share rv" id="share">
+    <div>
+      <h3>MARVELの面白さ、<br>友達にも教えよう</h3>
+      <p class="d">初めての人を誘うときは、この文章をそのまま送ってください。リンクはあなたの共有ページのものを後ろに貼れば完成です。</p>
+    </div>
+    <div>
+      <div class="msg" id="msg">MARVELの新作「アベンジャーズ／ドゥームズデイ」が12/18に公開されるよ！
+初めてでも大丈夫。5本だけ見れば話についていけるし、笑えて泣けて、とにかくかっこいい。
+見る順番とおすすめは、ここにまとめたよ。</div>
+      <div class="row"><button type="button" class="btn ghost" id="copy">文章をコピー</button><span id="copied" role="status"></span></div>
+    </div>
+  </div>
 
   <div class="card tips rv">
     <h3>見るときのコツ</h3>
@@ -351,6 +443,57 @@ const DETAIL = {
  dpwl:{about:'おしゃべりで不謹慎なヒーロー、デッドプールが、ウルヴァリンと組む物語。4つ目の壁を越えた自虐ギャグが満載で、過去のX-MEN映画を知っていると笑える箇所が増えます。',link:'X-MEN世代のキャラがMCUに入ってくる入口になった作品です。',
   more:[['デッドプール（2016）','1作目。まずこちらから'],['デッドプール2（2018）','2作目'],['X-MEN／X-MEN2','ここのメンバーがドゥームズデイにも関わる','xmen'],['ローガン（2017）','ウルヴァリンの別の物語']]}
 };
+/* ---- 作品ごとの「ここがかっこいい」の一言 ---- */
+const HYPE={
+ avengers:'バラバラだったヒーローが、一つのチームになる。',
+ 'infinity-war':'全員で挑んでも、勝てない相手がいる。',
+ endgame:'10年以上の物語が、ここで一つの答えになる。',
+ thunderbolts:'ヒーローじゃない。だから、いちばん人間くさい。',
+ 'fantastic-four':'家族で、世界を救う。',
+ ironman:'すべては、この一人の男から始まった。',
+ cap1:'正義感だけで、世界一強くなった男。',
+ ultron:'完璧な平和を作ろうとして、最悪の敵を生んでしまう。',
+ 'civil-war':'仲間と戦うことになる。どちらの言い分も、わかってしまう。',
+ loki:'いたずらの神が、自分の運命に向き合う。',
+ xmen:'違うからこそ、仲間になれる。',
+ gotg:'はぐれ者が集まったら、最高のチームだった。',
+ ragnarok:'ソーが、いちばん面白くなる。',
+ spidey:'ヒーローは、街の隣にいる高校生。',
+ bp:'王として、ヒーローとして。',
+ strange:'見えている世界は、ほんの一部でしかない。',
+ dpwl:'いちばん自由なヒーローが、いちばん熱い。'
+};
+/* ---- 気分で選ぶ ---- */
+const MOODS=[
+ {k:'笑いたい',p:[['ragnarok','コメディ寄りで、ソーが一気に好きになる。MARVELの中でも笑いが多い1本。'],['gotg','宇宙のはぐれ者たちの掛け合いが最高。音楽も楽しい。'],['dpwl','下品でメタなギャグが全開。ノリが合えばいちばん笑える。']]},
+ {k:'泣きたい',p:[['endgame','積み重ねてきた物語の完結編。見終わったあとにしばらく余韻が残る。'],['gotg','笑っていたはずが、3まで見ると泣ける。']]},
+ {k:'かっこいいのが見たい',p:[['avengers','ヒーローが全員そろう瞬間は、何度見ても鳥肌。'],['infinity-war','最強の敵に総力戦で挑む、シリーズ最大級のスケール。'],['strange','魔術と映像体験。見ているだけで楽しい。']]},
+ {k:'世界観に浸りたい',p:[['bp','科学と伝統が融合した王国。衣装も音楽も美しい。'],['strange','街が折れ曲がる映像など、画面を見るだけでワクワクする。'],['fantastic-four','レトロな未来感の世界で、家族がヒーローになる。']]},
+ {k:'気軽に見たい',p:[['ironman','MCUの始まり。軽口まじりでテンポよく、入りやすい。'],['spidey','高校生ヒーローの青春もの。重すぎず楽しめる。'],['ragnarok','明るくて、サクッと楽しい。']]},
+ {k:'頭を使いたい',p:[['loki','時間と分岐した世界の謎解き。マルチバースの基本もわかる。'],['civil-war','どちらの言い分もわかる、ヒーロー同士の対立。']]}
+];
+const moodsEl=document.getElementById('moods'),pickOut=document.getElementById('pickout');
+moodsEl.innerHTML=MOODS.map((m,i)=>`<button type="button" class="mood" data-i="${i}" aria-pressed="false">${m.k}</button>`).join('');
+pickOut.innerHTML='<div class="pickhint">気分を選ぶと、おすすめが出ます。</div>';
+moodsEl.addEventListener('click',e=>{
+  const b=e.target.closest('.mood');if(!b)return;
+  moodsEl.querySelectorAll('.mood').forEach(x=>{x.classList.toggle('on',x===b);x.setAttribute('aria-pressed',x===b)});
+  const m=MOODS[b.dataset.i];
+  pickOut.innerHTML=m.p.map(([id,why],n)=>{const f=byId(id);const i=FILMS[f.k].indexOf(f);
+    return `<div class="pk" style="animation-delay:${n*.08}s">${posterHTML(f,'',false)}<div><div class="lab">${TIER[f.k]}${n===0?' ・ いちばんのおすすめ':''}</div><h3>${f.t}</h3><p>${esc(why)}</p><button type="button" data-open="${id}">詳しく見る</button></div></div>`}).join('');
+  pickOut.querySelectorAll('[data-open]').forEach(x=>x.onclick=()=>openDetail(x.dataset.open));
+});
+/* ---- 流れる言葉 ---- */
+(function(){const w=['かっこいい','笑える','泣ける','熱い','壮大','胸がふるえる','語りたくなる'];
+ const h=w.map((t,i)=>`<b${i%2?' class="f"':''}>${t}</b>`).join('');
+ document.getElementById('tr').innerHTML=h+h;})();
+/* ---- 紹介文のコピー ---- */
+document.getElementById('copy').onclick=()=>{
+  const t=document.getElementById('msg').textContent,out=document.getElementById('copied');
+  const ok=()=>{out.textContent='コピーしました';setTimeout(()=>out.textContent='',2500)};
+  const fail=()=>{const r=document.createRange();r.selectNodeContents(document.getElementById('msg'));const s=getSelection();s.removeAllRanges();s.addRange(r);out.textContent='選択しました。コピーしてください'};
+  try{navigator.clipboard.writeText(t).then(ok,fail)}catch(e){fail()}
+};
 const ALL=[];[1,2,3].forEach(k=>FILMS[k].forEach(f=>{f.k=k;ALL.push(f)}));
 const byId=id=>ALL.find(f=>f.id===id);
 const TIER=['','① 最低限','② なおよし','③ 面白かったら'];
@@ -384,6 +527,7 @@ function openDetail(id){
     <div class="det">
       <div class="meta"><span class="pillt">${TIER[f.k]}</span><span class="pillt">${esc(f.y)}</span></div>
       <h2 id="dtitle">${f.t}</h2><div class="en2">${f.en}</div>
+      ${HYPE[id]?`<p class="hype">${HYPE[id]}</p>`:''}
       <h4>どんな作品？（ネタバレなし）</h4><p class="tx">${esc(d.about)}</p>
       ${d.link?`<h4>ドゥームズデイとのつながり</h4><div class="link">${esc(d.link)}</div>`:''}
       ${more.length?`<h4>もっと知りたかったら、これを見よう</h4><ul class="more">${more}</ul>`:''}
@@ -439,7 +583,8 @@ function bind(){
 
 /* nav / 進捗の表示切替 */
 const nav=document.getElementById('nav'),fp=document.getElementById('prog1');
-addEventListener('scroll',()=>{nav.classList.toggle('scrolled',scrollY>40);fp.classList.toggle('show',scrollY>innerHeight*.9)},{passive:true});
+const ridge=document.querySelector('.ridge');
+addEventListener('scroll',()=>{if(scrollY<innerHeight)ridge.style.transform=`translateY(${scrollY*.12}px)`;nav.classList.toggle('scrolled',scrollY>40);fp.classList.toggle('show',scrollY>innerHeight*.9)},{passive:true});
 
 /* カウントダウン（日本時間 2026-12-18 0:00） */
 const target=new Date('2026-12-18T00:00:00+09:00');
