@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0b10">
+<title>アベンジャーズ／ドゥームズデイまでに見るリスト</title>
+<meta name="description" content="MARVEL初めてでも大丈夫。①だけ見ればドゥームズデイに間に合う、ウォッチガイド。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0b10; --s1:#13131b; --s2:#1b1b26; --line:rgba(255,255,255,.09);
+  --tx:#f3efe8; --mute:#9a97a3; --dim:#5f5d69;
+  --red:#e23636; --gold:#f0b429; --teal:#2ec4a6;
+  --r:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:'Noto Sans JP',system-ui,sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.display{font-family:'Bebas Neue','Noto Sans JP',sans-serif;letter-spacing:.06em}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;min-height:92vh;display:flex;align-items:center;overflow:hidden;
+  background:radial-gradient(ellipse at 78% 38%,rgba(226,54,54,.38),transparent 55%),
+             radial-gradient(ellipse at 10% 100%,rgba(240,180,41,.10),transparent 50%),var(--bg)}
+.rings{position:absolute;right:-8%;top:50%;width:min(78vw,760px);aspect-ratio:1;transform:translateY(-50%);pointer-events:none;opacity:.9}
+.rings i{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(240,180,41,.35);animation:spin 60s linear infinite}
+.rings i:nth-child(2){inset:12%;border-color:rgba(226,54,54,.5);animation-duration:42s;animation-direction:reverse}
+.rings i:nth-child(3){inset:26%;border-color:rgba(240,180,41,.3);animation-duration:30s}
+.rings i:nth-child(4){inset:40%;background:radial-gradient(circle,rgba(226,54,54,.55),transparent 70%);border:0;animation:none}
+.rings i::after{content:"";position:absolute;top:8%;left:50%;width:9px;height:9px;border-radius:50%;background:#fff;box-shadow:0 0 14px #fff}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero .wrap{position:relative;z-index:2;padding-top:60px;padding-bottom:60px}
+.eyebrow{color:var(--gold);font-weight:700;letter-spacing:.32em;font-size:12px;margin-bottom:20px}
+h1{font-family:'Noto Serif JP',serif;font-weight:900;font-size:clamp(34px,7vw,84px);line-height:1.12;letter-spacing:.01em}
+h1 em{font-style:normal;background:linear-gradient(90deg,#ff6b5a,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{margin-top:22px;color:var(--mute);font-size:clamp(14px,2vw,18px);max-width:34em}
+.lead b{color:var(--tx)}
+.release{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px;align-items:stretch}
+.badge{background:var(--red);color:#fff;font-weight:900;padding:12px 20px;border-radius:10px;font-size:15px;letter-spacing:.04em;display:flex;align-items:center}
+.count{display:flex;gap:10px}
+.count div{background:rgba(255,255,255,.05);border:1px solid var(--line);backdrop-filter:blur(6px);border-radius:10px;padding:6px 14px;text-align:center;min-width:64px}
+.count b{display:block;font-family:'Bebas Neue';font-size:30px;line-height:1.1;font-weight:400;letter-spacing:.04em}
+.count small{font-size:10px;color:var(--mute);letter-spacing:.2em}
+.scroll{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:.4em;color:var(--dim);z-index:2}
+
+/* ---------- NAV (sticky progress) ---------- */
+.bar{position:sticky;top:0;z-index:50;background:rgba(11,11,16,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;gap:18px;height:56px}
+.bar a{color:var(--mute);text-decoration:none;font-size:13px;font-weight:700;white-space:nowrap}
+.bar a:hover{color:var(--tx)}
+.prog{margin-left:auto;display:flex;align-items:center;gap:10px;font-size:12px;color:var(--mute);min-width:0}
+.track{width:clamp(70px,18vw,180px);height:6px;border-radius:9px;background:var(--s2);overflow:hidden}
+.track i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--gold));transition:width .5s}
+@media(max-width:560px){.bar .nl{display:none}}
+
+/* ---------- LEGEND ---------- */
+section{padding:84px 0 20px}
+.legend{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:-20px;position:relative;z-index:3}
+.lg{border-radius:var(--r);padding:20px 22px;border:1px solid var(--line);background:var(--s1)}
+.lg h3{font-size:16px;font-weight:900;margin-bottom:4px}
+.lg p{font-size:13px;color:var(--mute)}
+.lg.a{border-top:3px solid var(--red)}.lg.a h3{color:#ff7b6e}
+.lg.b{border-top:3px solid var(--gold)}.lg.b h3{color:var(--gold)}
+.lg.c{border-top:3px solid var(--teal)}.lg.c h3{color:var(--teal)}
+@media(max-width:760px){.legend{grid-template-columns:1fr}}
+
+/* ---------- ROUTE ---------- */
+.sh{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:30px}
+.num{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;font-family:'Bebas Neue';font-size:30px;color:#0b0b10}
+.sh h2{font-family:'Noto Serif JP',serif;font-weight:900;font-size:clamp(24px,4vw,36px);line-height:1.2}
+.sh .note{margin-left:auto;font-size:13px;color:var(--mute)}
+.eyebrow2{font-size:12px;letter-spacing:.3em;color:var(--dim);font-weight:700;margin-bottom:14px}
+.route{display:flex;gap:0;overflow-x:auto;padding:14px 4px 22px;scroll-snap-type:x proximity;scrollbar-width:thin}
+.step{flex:0 0 auto;scroll-snap-align:start;display:flex;align-items:center}
+.node{padding:11px 16px;border-radius:12px;font-weight:700;font-size:13px;line-height:1.35;text-align:center;border:1.5px solid;background:var(--s1);min-width:98px}
+.node.a{border-color:var(--red);color:#ffb0a8;background:rgba(226,54,54,.12)}
+.node.b{border-color:rgba(240,180,41,.7);color:#ffd886;background:rgba(240,180,41,.08)}
+.node.end{background:#fff;color:#0b0b10;border-color:#fff;font-weight:900;box-shadow:0 0 30px rgba(255,255,255,.35)}
+.node small{display:block;font-weight:400;font-size:10px;opacity:.75}
+.arr{width:26px;height:2px;background:var(--dim);position:relative;flex:0 0 26px}
+.arr::after{content:"";position:absolute;right:-1px;top:-4px;border:5px solid transparent;border-left:7px solid var(--dim)}
+.key{display:flex;gap:18px;font-size:12px;color:var(--mute);margin-top:4px;flex-wrap:wrap}
+.key span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.key .ka::before{background:var(--red)}.key .kb::before{background:var(--gold)}.key .ke::before{background:#fff}
+
+/* ---------- CARDS ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:22px}
+.card{position:relative;background:var(--s1);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;transition:transform .3s,border-color .3s,box-shadow .3s;cursor:pointer;display:flex;flex-direction:column}
+.card:hover{transform:translateY(-6px);box-shadow:0 22px 50px -18px var(--glow,#000);border-color:rgba(255,255,255,.22)}
+.poster{position:relative;aspect-ratio:2/3;overflow:hidden;background:linear-gradient(160deg,var(--c1),var(--c2))}
+.poster img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:3}
+.poster svg.art{position:absolute;inset:0;width:100%;height:100%;z-index:1}
+.poster::after{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(0,0,0,.05) 35%,rgba(0,0,0,.78));pointer-events:none}
+.poster .pt{position:absolute;left:14px;right:14px;bottom:14px;z-index:2}
+.poster .pt b{display:block;font-family:'Noto Serif JP',serif;font-weight:900;font-size:19px;line-height:1.25;text-shadow:0 2px 14px rgba(0,0,0,.6)}
+.poster .pt span{display:block;font-family:'Bebas Neue';letter-spacing:.14em;font-size:13px;opacity:.85;margin-top:4px}
+.poster .ord{position:absolute;top:12px;left:12px;z-index:2;font-family:'Bebas Neue';font-size:13px;letter-spacing:.12em;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.25);padding:1px 10px;border-radius:99px}
+.poster .fs{position:absolute;top:12px;right:12px;z-index:2}
+.chk{width:30px;height:30px;border-radius:50%;border:2px solid rgba(255,255,255,.55);background:rgba(0,0,0,.4);display:grid;place-items:center;transition:.25s}
+.chk svg{width:16px;height:16px;stroke:#0b0b10;stroke-width:3.5;fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:0;transform:scale(.4);transition:.25s}
+.card.done .chk{background:var(--gold);border-color:var(--gold)}
+.card.done .chk svg{opacity:1;transform:none}
+.card.done .poster{filter:grayscale(.85) brightness(.7)}
+.info{padding:14px 16px 18px}
+.info .meta{font-size:12px;color:var(--gold);font-weight:700;letter-spacing:.06em}
+.info p{font-size:13px;color:var(--mute);margin-top:4px;line-height:1.65}
+
+/* ---------- TIPS ---------- */
+.tips{margin:80px 0 0;border-radius:22px;padding:34px clamp(22px,4vw,48px);background:linear-gradient(135deg,#1c1018,#101018);border:1px solid var(--line);position:relative;overflow:hidden}
+.tips::before{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(240,180,41,.25),transparent 70%)}
+.tips h3{color:var(--gold);font-size:15px;letter-spacing:.12em;margin-bottom:12px;position:relative}
+.tips li{list-style:none;padding-left:22px;position:relative;margin:8px 0;font-size:15px;position:relative}
+.tips li::before{content:"✦";position:absolute;left:0;color:var(--red)}
+footer{padding:50px 0 70px;text-align:center;color:var(--dim);font-size:12px;line-height:2}
+footer .reset{margin-top:14px;background:none;border:1px solid var(--line);color:var(--mute);padding:6px 16px;border-radius:99px;font-size:12px;cursor:pointer;font-family:inherit}
+footer .reset:hover{color:var(--tx);border-color:var(--mute)}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rings i{animation:none}.rv{opacity:1;transform:none;transition:none}}
+@media(max-width:560px){.grid{grid-template-columns:repeat(2,1fr);gap:14px}.poster .pt b{font-size:15px}.info p{font-size:12px}.sh .note{margin-left:0;width:100%}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="rings" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="wrap">
+    <div class="eyebrow">MARVEL WATCH GUIDE</div>
+    <h1>アベンジャーズ／<br><em>ドゥームズデイ</em><br>までに見るリスト</h1>
+    <p class="lead">MARVEL初めてでも大丈夫。<b>①だけ見れば</b>話についていけます。</p>
+    <div class="release">
+      <div class="badge">2026.12.18（金）公開</div>
+      <div class="count" id="count" aria-label="公開までのカウントダウン">
+        <div><b id="cd">--</b><small>DAYS</small></div>
+        <div><b id="ch">--</b><small>HRS</small></div>
+        <div><b id="cm">--</b><small>MIN</small></div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll">SCROLL</div>
+</header>
+
+<nav class="bar">
+  <div class="wrap">
+    <a class="nl" href="#route">見る順番</a>
+    <a class="nl" href="#t1">① 最低限</a>
+    <a class="nl" href="#t2">② なおよし</a>
+    <a class="nl" href="#t3">③ 面白かったら</a>
+    <div class="prog"><span id="ptext">0 / 0</span><div class="track"><i id="pbar"></i></div></div>
+  </div>
+</nav>
+
+<main class="wrap">
+  <div class="legend rv">
+    <div class="lg a"><h3>① 最低限これだけ</h3><p>5本・約12時間<br>週2本で公開日に間に合う</p></div>
+    <div class="lg b"><h3>② 見るとなおよし</h3><p>余裕があれば①の間に挟む<br>キャラへの思い入れが段違い</p></div>
+    <div class="lg c"><h3>③ 面白かったら</h3><p>ハマったら見てほしい<br>ドゥームズデイ後でもOK</p></div>
+  </div>
+
+  <section id="route">
+    <div class="eyebrow2">RECOMMENDED ORDER（①＋②）</div>
+    <div class="sh"><h2>おすすめの見る順番</h2></div>
+    <div class="route rv" id="routeEl"></div>
+    <div class="key"><span class="ka">① 最低限</span><span class="kb">② なおよし</span><span class="ke">ゴール</span></div>
+  </section>
+
+  <section id="t1">
+    <div class="sh rv"><div class="num" style="background:var(--red)">1</div><h2>最低限これだけ見て</h2><div class="note">見たらチェック ✓（ポスターをタップ）</div></div>
+    <div class="grid" id="g1"></div>
+  </section>
+
+  <section id="t2">
+    <div class="sh rv"><div class="num" style="background:var(--gold)">2</div><h2>ここまで見るとなおよし</h2><div class="note">①の間に挟むのがおすすめ</div></div>
+    <div class="grid" id="g2"></div>
+  </section>
+
+  <section id="t3">
+    <div class="sh rv"><div class="num" style="background:var(--teal)">3</div><h2>面白かったらこれも見て！</h2><div class="note">ドゥームズデイの後でもOK</div></div>
+    <div class="grid" id="g3"></div>
+  </section>
+
+  <div class="tips rv">
+    <h3>見るときのコツ</h3>
+    <ul>
+      <li>エンドロールの後にもおまけ映像があるので、最後まで止めずに見てね</li>
+      <li>わからないところが出てきても気にせず進めてOK。気になったら聞いて！</li>
+      <li>①を週2本ペースで見れば、12/18の公開日に間に合うよ</li>
+    </ul>
+  </div>
+</main>
+
+<footer>
+  <div>※ 作品の配信状況は変わることがあります。見る前にディズニープラスで確認してね。</div>
+  <div>※ ③のスパイダーマン作品など、一部はディズニープラスで配信されていない場合があります。</div>
+  <button class="reset" id="reset">チェックをリセット</button>
+</footer>
+
+<script>
+/* 作品データ。ポスター画像を使う場合は posters/<id>.jpg を置くと自動で差し替わります */
+const FILMS = {
+  1:[
+    {id:'avengers',t:'アベンジャーズ',y:'2012',en:'THE AVENGERS',d:'主要ヒーローが全員集まる1作目。キャラ紹介はこれでOK',c:['#1b3a6b','#0a1226'],e:'A'},
+    {id:'infinity-war',t:'アベンジャーズ／インフィニティ・ウォー',y:'2018',en:'INFINITY WAR',d:'最強の敵との戦い。エンドゲームと前後編セット',c:['#5b1f78','#14061f'],e:'gem'},
+    {id:'endgame',t:'アベンジャーズ／エンドゲーム',y:'2019',en:'ENDGAME',d:'旧アベンジャーズの物語の完結編。約3時間あるので覚悟して',c:['#8a2a8f','#1a0a2a'],e:'gem'},
+    {id:'thunderbolts',t:'サンダーボルツ*',y:'2025',en:'THUNDERBOLTS*',d:'ドゥームズデイに出てくる新チームの誕生',c:['#c9962a','#1a1206'],e:'star'},
+    {id:'fantastic-four',t:'ファンタスティック4：ファースト・ステップ',y:'2025',en:'THE FANTASTIC FOUR',d:'ドゥームズデイの敵「ドクター・ドゥーム」につながる一番大事な予習作。見終わったらそのままドゥームズデイへ！',c:['#1d6fb8','#07182c'],e:'f4'}
+  ],
+  2:[
+    {id:'ironman',t:'アイアンマン',y:'2008',en:'IRON MAN',d:'全部の始まり。ドゥームズデイの敵役の俳優が、ここで主人公トニー・スタークを演じた人。知ってから見ると重みが全然違う',c:['#a3201d','#2a0806'],e:'arc'},
+    {id:'cap1',t:'キャプテン・アメリカ／ザ・ファースト・アベンジャー',y:'2011',en:'THE FIRST AVENGER',d:'もう一人の中心人物スティーブの原点',c:['#1c3f8f','#0a1230'],e:'shield'},
+    {id:'ultron',t:'アベンジャーズ／エイジ・オブ・ウルトロン',y:'2015',en:'AGE OF ULTRON',d:'アベンジャーズ2作目',c:['#a53a1a','#1f0b06'],e:'A'},
+    {id:'civil-war',t:'シビル・ウォー／キャプテン・アメリカ',y:'2016',en:'CIVIL WAR',d:'ウルトロンの後、インフィニティ・ウォーの前に。チームが割れる理由がわかる',c:['#4a5568','#10131a'],e:'split'},
+    {id:'loki',t:'ロキ（ドラマ シーズン1・2）',y:'2021・2023',en:'LOKI',d:'「マルチバース」の仕組みがわかる',c:['#2a8f6a','#07201a'],e:'loki'},
+    {id:'xmen',t:'X-MEN ／ X-MEN2',y:'2000 ・ 2003',en:'X-MEN',d:'MCUとは別シリーズだけど、ここのX-MENメンバーがドゥームズデイに戻ってくる。顔と関係をこの2本で押さえよう',c:['#d6a419','#1b1503'],e:'x'}
+  ],
+  3:[
+    {id:'gotg',t:'ガーディアンズ・オブ・ギャラクシー（1〜3）',y:'2014〜',en:'GUARDIANS OF THE GALAXY',d:'宇宙のはぐれ者チーム。音楽が最高、3で泣ける',c:['#c2307a','#1d0a3a'],e:'star'},
+    {id:'ragnarok',t:'マイティ・ソー バトルロイヤル',y:'2017',en:'THOR: RAGNAROK',d:'コメディ寄り。ソーが一気に好きになる',c:['#e0602a','#2a0f4a'],e:'bolt'},
+    {id:'spidey',t:'スパイダーマン：ホームカミング → ノー・ウェイ・ホーム',y:'2017・2021',en:'SPIDER-MAN',d:'高校生ヒーローの青春もの',c:['#d62b2b','#0e1a4a'],e:'web'},
+    {id:'bp',t:'ブラックパンサー',y:'2018',en:'BLACK PANTHER',d:'単体で見てもしっかり面白い王国の物語',c:['#5b3a9a','#0a0a14'],e:'claw'},
+    {id:'strange',t:'ドクター・ストレンジ',y:'2016',en:'DOCTOR STRANGE',d:'魔術×映像体験。映像がとにかくすごい',c:['#e08a1e','#2a1050'],e:'portal'},
+    {id:'dpwl',t:'デッドプール＆ウルヴァリン',y:'2024',en:'DEADPOOL & WOLVERINE',d:'下品でメタなノリが合えば最高。デッドプール1・2から見るのがおすすめ',c:['#c8202a','#1a1a1a'],e:'slash'}
+  ]
+};
+const ROUTE = [
+ ['アイアンマン','b'],['キャプテン・<br>アメリカ','b'],['アベンジャーズ','a'],['エイジ・オブ・<br>ウルトロン','b'],['シビル・ウォー','b'],
+ ['インフィニティ・<br>ウォー','a'],['エンドゲーム','a'],['ロキ<small>（ドラマ）</small>','b'],['X-MEN<br>X-MEN2','b'],
+ ['サンダーボルツ*','a'],['ファンタス<br>ティック4','a'],['ドゥームズ<br>デイ！','end']
+];
+
+/* ---- ポスター用アートワーク（SVG）---- */
+const W='rgba(255,255,255,';
+const ART = {
+ A:`<g fill="none" stroke="${W}.22)" stroke-width="7" stroke-linejoin="round"><path d="M100 40 L40 190 M100 40 L160 190 M62 140 H138"/></g><circle cx="100" cy="115" r="86" fill="none" stroke="${W}.12)" stroke-width="2"/>`,
+ gem:`<g fill="none" stroke="${W}.14)" stroke-width="2"><polygon points="100,28 168,68 168,148 100,188 32,148 32,68"/><polygon points="100,58 144,82 144,134 100,158 56,134 56,82"/></g>${['#f0b429','#e23636','#2ec4a6','#8e5be8','#ff8c1a','#3b9cff'].map((c,i)=>{const a=i*Math.PI/3-Math.PI/2;return `<circle cx="${100+Math.cos(a)*56}" cy="${108+Math.sin(a)*56}" r="9" fill="${c}" opacity=".85"/>`}).join('')}`,
+ star:`<polygon points="100,30 118,86 176,86 129,120 147,176 100,142 53,176 71,120 24,86 82,86" fill="${W}.13)"/><circle cx="100" cy="108" r="88" fill="none" stroke="${W}.1)" stroke-width="2"/>`,
+ f4:`<circle cx="100" cy="108" r="70" fill="none" stroke="${W}.2)" stroke-width="3"/><g fill="${W}.2)"><path d="M92 60h16v38h38v16h-38v38H92v-38H54V98h38z"/></g><text x="100" y="124" text-anchor="middle" font-family="Bebas Neue" font-size="40" fill="${W}.5)">4</text>`,
+ arc:`<g fill="none" stroke="${W}.32)" stroke-width="3"><circle cx="100" cy="108" r="30"/><circle cx="100" cy="108" r="52" stroke-dasharray="8 6"/><circle cx="100" cy="108" r="78" stroke-width="1.5"/></g><circle cx="100" cy="108" r="16" fill="#9fe8ff" opacity=".8"/><circle cx="100" cy="108" r="40" fill="#9fe8ff" opacity=".08"/>`,
+ shield:`<circle cx="100" cy="108" r="82" fill="#d62b2b" opacity=".75"/><circle cx="100" cy="108" r="64" fill="#f1ede4" opacity=".85"/><circle cx="100" cy="108" r="46" fill="#d62b2b" opacity=".85"/><circle cx="100" cy="108" r="30" fill="#1c3f8f"/><polygon points="100,84 106,102 126,102 110,113 116,132 100,120 84,132 90,113 74,102 94,102" fill="#f1ede4"/>`,
+ split:`<polygon points="0,0 120,0 80,215 0,215" fill="#d62b2b" opacity=".25"/><polygon points="120,0 200,0 200,215 80,215" fill="#3b7bd6" opacity=".28"/><path d="M120 0 L80 215" stroke="#fff" stroke-width="3" opacity=".7"/>`,
+ loki:`<g fill="none" stroke="${W}.25)" stroke-width="4"><path d="M60 170 C 60 90, 80 70, 100 40 C 120 70, 140 90, 140 170"/><path d="M100 40 V 170"/><path d="M72 130 H128"/></g><circle cx="100" cy="108" r="86" fill="none" stroke="#f0b429" stroke-opacity=".4" stroke-width="2"/>`,
+ x:`<g stroke="${W}.28)" stroke-width="16" stroke-linecap="round"><path d="M50 50 L150 170 M150 50 L50 170"/></g><circle cx="100" cy="110" r="88" fill="none" stroke="${W}.12)" stroke-width="2"/>`,
+ bolt:`<polygon points="116,22 56,120 96,120 80,196 148,92 106,92" fill="${W}.2)"/><circle cx="100" cy="108" r="88" fill="none" stroke="${W}.12)" stroke-width="2"/>`,
+ web:`<g stroke="${W}.22)" stroke-width="2" fill="none">${[0,1,2,3,4,5,6,7].map(i=>{const a=i*Math.PI/4;return `<line x1="100" y1="108" x2="${100+Math.cos(a)*100}" y2="${108+Math.sin(a)*100}"/>`}).join('')}${[24,48,72].map(r=>`<circle cx="100" cy="108" r="${r}"/>`).join('')}</g>`,
+ claw:`<g stroke="${W}.3)" stroke-width="7" stroke-linecap="round" fill="none"><path d="M62 40 L84 176"/><path d="M100 36 L100 180"/><path d="M138 40 L116 176"/></g><circle cx="100" cy="108" r="88" fill="none" stroke="#a46cff" stroke-opacity=".35" stroke-width="2"/>`,
+ portal:`<g fill="none" stroke="#ffb347" stroke-width="3"><circle cx="100" cy="108" r="70" stroke-dasharray="3 7"/><circle cx="100" cy="108" r="52" stroke-dasharray="14 6" opacity=".8"/><circle cx="100" cy="108" r="34" stroke-dasharray="4 5" opacity=".7"/></g><circle cx="100" cy="108" r="86" fill="none" stroke="${W}.12)"/>`,
+ slash:`<g stroke="${W}.35)" stroke-width="7" stroke-linecap="round"><path d="M50 40 L90 180"/><path d="M92 36 L132 176"/><path d="M134 32 L174 172"/></g><circle cx="100" cy="108" r="30" fill="#0a0a0a" opacity=".5"/>`
+};
+
+function posterHTML(f,ord){
+  return `<div class="poster" style="--c1:${f.c[0]};--c2:${f.c[1]}">
+    <svg class="art" viewBox="0 0 200 215" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${ART[f.e]||''}</svg>
+    <img src="posters/${f.id}.jpg" alt="${f.t} ポスター" loading="lazy" onerror="this.remove()">
+    <div class="ord">${ord}</div>
+    <div class="fs"><div class="chk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div></div>
+    <div class="pt"><b>${f.t}</b><span>${f.en}</span></div>
+  </div>`;
+}
+
+const store = {get(){try{return JSON.parse(localStorage.getItem('doomsday-done')||'{}')}catch(e){return {}}},
+               set(v){try{localStorage.setItem('doomsday-done',JSON.stringify(v))}catch(e){}}};
+let done = store.get();
+
+function render(){
+  [1,2,3].forEach(k=>{
+    const el=document.getElementById('g'+k);
+    el.innerHTML=FILMS[k].map((f,i)=>`
+      <article class="card rv ${done[f.id]?'done':''}" data-id="${f.id}" style="--glow:${f.c[0]}" tabindex="0" role="checkbox" aria-checked="${!!done[f.id]}" aria-label="${f.t}">
+        ${posterHTML(f,['①','②','③'][k-1]+' - '+String(i+1).padStart(2,'0'))}
+        <div class="info"><div class="meta">${f.y}</div><p>${f.d}</p></div>
+      </article>`).join('');
+  });
+  document.getElementById('routeEl').innerHTML = ROUTE.map((r,i)=>
+    `<div class="step"><div class="node ${r[1]}">${r[0]}</div>${i<ROUTE.length-1?'<div class="arr"></div>':''}</div>`).join('');
+  bind(); progress();
+}
+function progress(){
+  const all=[...FILMS[1],...FILMS[2],...FILMS[3]];
+  const n=all.filter(f=>done[f.id]).length;
+  const m1=FILMS[1].filter(f=>done[f.id]).length;
+  document.getElementById('ptext').textContent=`① ${m1}/${FILMS[1].length}　全体 ${n}/${all.length}`;
+  document.getElementById('pbar').style.width=(m1/FILMS[1].length*100)+'%';
+}
+function toggle(card){
+  const id=card.dataset.id; done[id]=!done[id]; if(!done[id]) delete done[id];
+  card.classList.toggle('done',!!done[id]); card.setAttribute('aria-checked',!!done[id]);
+  store.set(done); progress();
+}
+function bind(){
+  document.querySelectorAll('.card').forEach(c=>{
+    c.addEventListener('click',()=>toggle(c));
+    c.addEventListener('keydown',e=>{if(e.key===' '||e.key==='Enter'){e.preventDefault();toggle(c)}});
+  });
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.08});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+}
+document.getElementById('reset').onclick=()=>{if(confirm('チェックを全部リセットしますか？')){done={};store.set(done);render()}};
+
+/* カウントダウン（日本時間 2026-12-18 0:00） */
+const target=new Date('2026-12-18T00:00:00+09:00');
+function tick(){
+  let s=Math.max(0,Math.floor((target-new Date())/1000));
+  const d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60);
+  cd.textContent=d;ch.textContent=String(h).padStart(2,'0');cm.textContent=String(m).padStart(2,'0');
+}
+tick(); setInterval(tick,30000);
+render();
+</script>
+</body>
+</html>
