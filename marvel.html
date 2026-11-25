@@ -134,6 +134,34 @@ footer p{font-size:12px;font-weight:480;letter-spacing:.01em;color:var(--color-a
 .fixprog{position:fixed;right:20px;bottom:20px;z-index:40;background:rgba(30,30,42,.85);backdrop-filter:blur(14px);opacity:0;pointer-events:none;transition:opacity .3s}
 .fixprog.show{opacity:1;pointer-events:auto}
 
+/* ---------- detail overlay ---------- */
+.ov{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(23,23,33,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.ov.open{display:flex}
+.sheet{position:relative;width:min(960px,100%);max-height:calc(100vh - 48px);overflow:auto;background:var(--color-graphite-card);border-radius:var(--radius-card);padding:32px;display:grid;grid-template-columns:260px 1fr;gap:36px}
+.sheet .poster{align-self:start;position:sticky;top:0}
+.sheet .poster::after{display:none}
+.sheet .poster .chk{display:none}
+.xbtn{position:absolute;top:16px;right:16px;z-index:5;width:40px;height:40px;border-radius:50%;border:1px solid var(--color-slate-border);background:var(--color-obsidian-button);color:var(--color-ivory-text);font-size:18px;cursor:pointer;line-height:1}
+.xbtn:hover{border-color:var(--color-ivory-text)}
+.det .meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;padding-right:48px}
+.det .pillt{display:inline-flex;align-items:center;height:28px;padding:0 14px;border-radius:40px;border:1px solid var(--color-slate-border);font-size:12px;letter-spacing:.06em;color:var(--color-ash-text)}
+.det h2{font-size:clamp(24px,3.4vw,32px);line-height:1.2;letter-spacing:.015em;margin-bottom:6px}
+.det .en2{font-size:12px;letter-spacing:.2em;color:var(--color-ash-text);margin-bottom:24px}
+.det h4{font-family:var(--font-display);font-weight:480;font-size:14px;letter-spacing:.08em;color:var(--color-ash-text);margin:28px 0 10px}
+.det p.tx{font-size:16px;line-height:1.75;color:var(--color-ivory-text)}
+.det .link{background:var(--color-onyx-canvas);border-radius:var(--radius-card);padding:18px 20px;font-size:15px;line-height:1.7;color:var(--color-ivory-text)}
+.more{display:grid;gap:10px;list-style:none}
+.more li{background:var(--color-onyx-canvas);border-radius:var(--radius-card);padding:16px 18px;display:flex;gap:14px;align-items:flex-start;justify-content:space-between}
+.more b{font-weight:480;font-size:15px;display:block;margin-bottom:2px}
+.more span.r{font-size:13px;color:var(--color-ash-text);line-height:1.6}
+.more .go{flex:0 0 auto;height:32px;padding:0 14px;border-radius:40px;border:1px solid var(--color-ivory-text);background:transparent;color:var(--color-ivory-text);font-size:12px;cursor:pointer;white-space:nowrap}
+.more .go:hover{background:rgba(237,237,243,.08)}
+.more .out{flex:0 0 auto;height:28px;padding:0 12px;border-radius:40px;border:1px solid var(--color-slate-border);color:var(--color-ash-text);font-size:11px;display:inline-flex;align-items:center;white-space:nowrap}
+.donebtn{margin-top:32px;height:44px;padding:0 24px;border-radius:40px;border:1px solid var(--color-ivory-text);background:transparent;color:var(--color-ivory-text);font-size:15px;cursor:pointer}
+.donebtn:hover{background:rgba(237,237,243,.08)}
+.donebtn.on{background:var(--color-ivory-text);color:var(--color-onyx-canvas)}
+@media(max-width:760px){.ov{padding:0;align-items:flex-end}.sheet{grid-template-columns:1fr;max-height:92vh;border-radius:var(--radius-card) var(--radius-card) 0 0;padding:24px 20px 32px;gap:24px}.sheet .poster{position:relative;width:46%;max-width:200px}.more li{flex-direction:column;gap:10px}}
+
 .rv{opacity:0;transform:translateY(20px);transition:opacity .7s,transform .7s}
 .rv.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
@@ -201,7 +229,7 @@ footer p{font-size:12px;font-weight:480;letter-spacing:.01em;color:var(--color-a
   </section>
 
   <section id="t1">
-    <div class="sh rv"><div class="idx">1</div><h2>最低限これだけ見て</h2><div class="note">見たらチェック ✓（カードをタップ）</div></div>
+    <div class="sh rv"><div class="idx">1</div><h2>最低限これだけ見て</h2><div class="note">カードをタップで詳細・関連作品</div></div>
     <div class="grid" id="g1"></div>
   </section>
 
@@ -232,6 +260,7 @@ footer p{font-size:12px;font-weight:480;letter-spacing:.01em;color:var(--color-a
   </div>
 </footer>
 <div class="prog fixprog" id="prog1"></div>
+<div class="ov" id="ov" aria-hidden="true"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="dtitle" id="sheet"></div></div>
 
 <script>
 /* 作品データ。ポスター画像を使う場合は posters/<id>.jpg を置くと自動で差し替わります */
@@ -285,19 +314,91 @@ const ART = {
  slash:`<g stroke="${I(.5)}" stroke-width="4" stroke-linecap="round"><path d="M56 42 L92 176"/><path d="M96 38 L132 172"/><path d="M136 34 L172 168"/></g><circle cx="100" cy="108" r="28" fill="none" stroke="${I(.3)}"/>`
 };
 
+/* ---- 作品ごとの詳細（ネタバレなし）。more の3つ目はこのリスト内の作品id ---- */
+const DETAIL = {
+ avengers:{about:'地球を狙うロキと、集められたヒーローたちの戦い。アイアンマン、キャプテン・アメリカ、ソー、ハルク、ブラック・ウィドウ、ホークアイが初めて同じ画面に並びます。シリーズ全体の「基本の顔合わせ」になる1本です。',link:'ここで顔を覚えたメンバーが、以降のアベンジャーズ作品の中心になります。',
+  more:[['アイアンマン','トニー・スタークがヒーローになるまで。ここに出てくる彼が好きなら先にこちらを','ironman'],['キャプテン・アメリカ／ザ・ファースト・アベンジャー','スティーブの過去を知ると、チームでの立ち位置がわかる','cap1'],['マイティ・ソー（2011）','ソーとロキがどんな兄弟なのかがわかる']]},
+ 'infinity-war':{about:'宇宙最強の敵サノスが、6つのインフィニティ・ストーンを集めに来る物語。地球のヒーローと宇宙のガーディアンズが合流する、シリーズ最大級のスケールです。',link:'エンドゲームの前編です。続けて見るのがおすすめ。',
+  more:[['ガーディアンズ・オブ・ギャラクシー','サノスと関係の深いガモーラ、宇宙の仲間たちを先に知れる','gotg'],['ブラックパンサー','ワカンダという国がここで大きな舞台になる','bp'],['ドクター・ストレンジ','魔術師ストレンジが何者かがわかる','strange'],['シビル・ウォー／キャプテン・アメリカ','チームが割れた理由。冒頭の空気感がつかめる','civil-war']]},
+ endgame:{about:'インフィニティ・ウォーのその後を描く、旧アベンジャーズの完結編。約3時間あり、シリーズの積み重ねが一気に回収されます。',link:'この作品までが、ひとまずの「物語の区切り」。ドゥームズデイは、ここから先の世代へ話が移っていきます。',
+  more:[['キャプテン・マーベル（2019）','エンドゲームで重要な役割を持つヒーローの単独作'],['アントマン（2015）','エンドゲームで鍵になる「量子世界」の入口','' ],['アベンジャーズ／インフィニティ・ウォー','これを見ていないと話が始まらない前編','infinity-war']]},
+ thunderbolts:{about:'訳ありの元ヴィランたちが集められ、思わぬ形でチームを組むことに。明るいヒーローものというより、傷を抱えた人たちの物語で、アクションとドラマのバランスが独特です。',link:'ドゥームズデイに参加する新チームの立ち上げ回。このメンバーの関係を知っておくと、顔ぶれが増えても追いやすくなります。',
+  more:[['ブラック・ウィドウ（2021）','エレーナ（イェレナ）の過去と、彼女が背負ったものがわかる'],['ファルコン＆ウィンター・ソルジャー（ドラマ）','バッキーとジョン・ウォーカーの背景がわかる'],['ホークアイ（ドラマ）','エレーナが再登場。短めで見やすい']]},
+ 'fantastic-four':{about:'宇宙で能力を得た4人家族が、街と世界を守るヒーローとして活躍する物語。レトロな未来感のある世界が舞台で、MCUの他作品とは少し違う雰囲気です。',link:'ドゥームズデイの敵「ドクター・ドゥーム」につながる一番大事な予習作。見終わったらそのままドゥームズデイへ。',
+  more:[['ロキ（ドラマ）','「別の世界」「マルチバース」の基本がわかる','loki'],['ドクター・ストレンジ／マルチバース・オブ・マッドネス（2022）','別の世界のヒーローが登場する映画'],['スパイダーマン：ノー・ウェイ・ホーム','マルチバースが大きく動く作品','spidey']]},
+ ironman:{about:'天才実業家トニー・スタークが、窮地から自作のスーツで脱出し、ヒーローになるまで。軽口まじりの語り口で、MCUのトーンを決めた1本です。',link:'ドゥームズデイの敵役を演じる俳優が、ここで主人公トニーを演じています。その人が今度は何者として戻ってくるのか、という見方ができます。',
+  more:[['アイアンマン2（2010）','トニーの前に新しい敵が現れる続編'],['アベンジャーズ','トニーが仲間と出会う','avengers'],['シビル・ウォー／キャプテン・アメリカ','トニーの考えが大きく動く','civil-war']]},
+ cap1:{about:'病弱だった青年スティーブが、特別な力を得て戦場へ。時代は第二次世界大戦中で、冒険映画のような味わいです。',link:'チームの精神的な柱になる人物の原点。以降の作品でのスティーブの判断に重みが出ます。',
+  more:[['キャプテン・アメリカ／ウィンター・ソルジャー（2014）','現代に生きるスティーブと、因縁の相手が出てくる続編'],['シビル・ウォー／キャプテン・アメリカ','スティーブとトニーが対立する','civil-war'],['ファルコン＆ウィンター・ソルジャー（ドラマ）','「その後」を担う人物たちの物語']]},
+ ultron:{about:'アベンジャーズが作り出してしまった人工知能ウルトロンとの戦い。新しい仲間が増え、ヒーローたちの意見の違いも見え始めます。',link:'次のシビル・ウォーで表面化する「チームのひび」の始まりがここです。',
+  more:[['アベンジャーズ','1作目。ここから見ると流れが追いやすい','avengers'],['ワンダヴィジョン（ドラマ）','ここで登場する2人のその後を描く'],['シビル・ウォー／キャプテン・アメリカ','チームが割れる理由が見えてくる','civil-war']]},
+ 'civil-war':{about:'ヒーローは国に管理されるべきか、という問いでチームが二つに割れる物語。多数のヒーローが入り乱れる空港のシーンが見どころです。',link:'ブラックパンサーとスパイダーマンが初めて登場する作品。この2人が好きなら単独作へどうぞ。',
+  more:[['ブラックパンサー','ここで登場する王子の単独作','bp'],['スパイダーマン：ホームカミング','ここで登場する少年の単独作','spidey'],['アントマン（2015）','ここで登場する小さなヒーローの1作目'],['キャプテン・アメリカ／ウィンター・ソルジャー（2014）','対立の背景にいる人物がわかる']]},
+ loki:{about:'アベンジャーズで敗れたロキが、時間を管理する組織TVAに捕まるところから始まるドラマ。時間と「分岐した世界」のしくみが出てきます。',link:'ドゥームズデイで大事になる「マルチバース」の考え方を、この作品でいちばん丁寧に学べます。',
+  more:[['アベンジャーズ','ロキがどんな人物だったかがわかる','avengers'],['マイティ・ソー（2011）','ロキの生い立ちと、兄ソーとの関係'],['ドクター・ストレンジ／マルチバース・オブ・マッドネス（2022）','マルチバースを映画で見られる'],['スパイダーマン：ノー・ウェイ・ホーム','マルチバースの影響が地上で起きる','spidey']]},
+ xmen:{about:'特別な力を持つ「ミュータント」たちが、差別や対立の中で生きる物語。MCUとは別のシリーズですが、ドゥームズデイではここのメンバーが戻ってくると言われています。',link:'顔と関係をこの2本で押さえておくと、再会の場面がぐっと響きます。',
+  more:[['X-MEN：ファースト・ジェネレーション（2011）','若き日のプロフェッサーXとマグニートー'],['X-MEN：フューチャー＆パスト（2014）','時間を行き来する大きな物語'],['ローガン（2017）','ウルヴァリンの物語の締めくくり'],['デッドプール＆ウルヴァリン','X-MEN世代がMCUとつながる作品','dpwl']]},
+ gotg:{about:'地球生まれのスター・ロードと、はぐれ者の仲間たちの宇宙冒険。昔の名曲が流れるのが特徴で、笑いと涙の両方があります。',link:'宇宙側のヒーローたち。インフィニティ・ウォーの前に見ておくと、サノスの周りの人間関係が理解しやすくなります。',
+  more:[['アベンジャーズ／インフィニティ・ウォー','ガーディアンズがアベンジャーズと合流する','infinity-war'],['マイティ・ソー バトルロイヤル','ソーが宇宙で彼らと出会う','ragnarok'],['ガーディアンズ・オブ・ギャラクシー：ホリデー・スペシャル（2022）','短くて気楽なおまけ']]},
+ ragnarok:{about:'ソーが、宇宙のゴミ星に飛ばされて戦うことに。それまでより大幅にコメディ寄りで、このシリーズから好きになる人も多いです。',link:'ソーの現在の姿と、ハルクとの関係がここで大きく変わります。',
+  more:[['マイティ・ソー（2011）','ソーの1作目。シリアスな原点','' ],['マイティ・ソー／ダーク・ワールド（2013）','ソーの2作目'],['アベンジャーズ','ソーとロキの再会','avengers'],['ガーディアンズ・オブ・ギャラクシー','インフィニティ・ウォーでソーと合流する宇宙チーム','gotg']]},
+ spidey:{about:'高校生ピーター・パーカーが、街のヒーローとして活躍する青春もの。ホームカミングで始まり、ノー・ウェイ・ホームで大きな節目を迎えます。',link:'ノー・ウェイ・ホームは、マルチバースが物語の中心になる作品です。',
+  more:[['シビル・ウォー／キャプテン・アメリカ','ピーターの初登場','civil-war'],['スパイダーマン：ファー・フロム・ホーム（2019）','ホームカミングとノー・ウェイ・ホームの間をつなぐ作品'],['ロキ（ドラマ）','マルチバースの考え方を先に知れる','loki'],['ドクター・ストレンジ','ノー・ウェイ・ホームでストレンジが関わる','strange']]},
+ bp:{about:'アフリカの架空の国ワカンダを治める若き王の物語。科学技術と伝統が融合した世界観と、音楽・衣装の美しさが評価されています。',link:'ワカンダは、以降のアベンジャーズ作品の舞台にもなります。',
+  more:[['シビル・ウォー／キャプテン・アメリカ','ブラックパンサー初登場','civil-war'],['ブラックパンサー／ワカンダ・フォーエバー（2022）','続編。ワカンダのその後'],['アベンジャーズ／インフィニティ・ウォー','ワカンダが戦場になる','infinity-war']]},
+ strange:{about:'事故で腕を失った天才外科医が、魔術の世界に出会います。鏡のように街が折れ曲がる映像など、見ているだけで楽しいシーンが多い作品です。',link:'マルチバースを扱う作品に頻繁に登場する人物。後の作品を見る前に押さえておくと楽です。',
+  more:[['マイティ・ソー バトルロイヤル','ストレンジがソーに会う場面がある','ragnarok'],['アベンジャーズ／インフィニティ・ウォー','ストレンジがサノスと戦う','infinity-war'],['ドクター・ストレンジ／マルチバース・オブ・マッドネス（2022）','続編。マルチバースが主題'],['スパイダーマン：ノー・ウェイ・ホーム','ストレンジが物語の発端に関わる','spidey']]},
+ dpwl:{about:'おしゃべりで不謹慎なヒーロー、デッドプールが、ウルヴァリンと組む物語。4つ目の壁を越えた自虐ギャグが満載で、過去のX-MEN映画を知っていると笑える箇所が増えます。',link:'X-MEN世代のキャラがMCUに入ってくる入口になった作品です。',
+  more:[['デッドプール（2016）','1作目。まずこちらから'],['デッドプール2（2018）','2作目'],['X-MEN／X-MEN2','ここのメンバーがドゥームズデイにも関わる','xmen'],['ローガン（2017）','ウルヴァリンの別の物語']]}
+};
+const ALL=[];[1,2,3].forEach(k=>FILMS[k].forEach(f=>{f.k=k;ALL.push(f)}));
+const byId=id=>ALL.find(f=>f.id===id);
+const TIER=['','① 最低限','② なおよし','③ 面白かったら'];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function posterHTML(f,ord,chk){
+  return `<div class="poster" style="--c1:${f.c}">
+      <svg class="art" viewBox="0 0 200 215" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${ART[f.e]||''}</svg>
+      <img src="posters/${f.id}.jpg" alt="${esc(f.t)} ポスター" loading="lazy" onerror="this.remove()">
+      <span class="ord">${ord}</span>
+      ${chk?`<button type="button" class="chk" aria-label="見たらチェック" aria-pressed="${!!done[f.id]}"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>`:''}
+      <span class="en">${f.en}</span>
+    </div>`;
+}
 function filmHTML(f,k,i){
   const ord=['①','②','③'][k-1]+' '+String(i+1).padStart(2,'0');
-  return `<article class="card film rv ${done[f.id]?'done':''}" data-id="${f.id}" tabindex="0" role="checkbox" aria-checked="${!!done[f.id]}" aria-label="${f.t}">
-    <div class="poster" style="--c1:${f.c}">
-      <svg class="art" viewBox="0 0 200 215" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${ART[f.e]||''}</svg>
-      <img src="posters/${f.id}.jpg" alt="${f.t} ポスター" loading="lazy" onerror="this.remove()">
-      <span class="ord">${ord}</span>
-      <span class="chk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
-      <span class="en">${f.en}</span>
-    </div>
+  return `<article class="card film rv ${done[f.id]?'done':''}" data-id="${f.id}" tabindex="0" role="button" aria-haspopup="dialog" aria-label="${esc(f.t)}の詳細を開く">
+    ${posterHTML(f,ord,true)}
     <div class="body"><h3>${f.t}</h3><span class="y">${f.y}</span><p>${f.d}</p></div>
   </article>`;
 }
+
+/* ---- 詳細オーバーレイ ---- */
+const ov=document.getElementById('ov'),sheet=document.getElementById('sheet');let lastFocus=null;
+function openDetail(id){
+  const f=byId(id),d=DETAIL[id]||{about:f.d,link:'',more:[]};
+  const i=FILMS[f.k].indexOf(f);
+  const more=d.more.map(m=>`<li><div><b>${esc(m[0])}</b><span class="r">${esc(m[1])}</span></div>${m[2]&&byId(m[2])?`<button type="button" class="go" data-go="${m[2]}">このリストで見る →</button>`:`<span class="out">リスト外</span>`}</li>`).join('');
+  sheet.innerHTML=`<button type="button" class="xbtn" id="xb" aria-label="閉じる">✕</button>
+    ${posterHTML(f,['①','②','③'][f.k-1]+' '+String(i+1).padStart(2,'0'),false)}
+    <div class="det">
+      <div class="meta"><span class="pillt">${TIER[f.k]}</span><span class="pillt">${esc(f.y)}</span></div>
+      <h2 id="dtitle">${f.t}</h2><div class="en2">${f.en}</div>
+      <h4>どんな作品？（ネタバレなし）</h4><p class="tx">${esc(d.about)}</p>
+      ${d.link?`<h4>ドゥームズデイとのつながり</h4><div class="link">${esc(d.link)}</div>`:''}
+      ${more.length?`<h4>もっと知りたかったら、これを見よう</h4><ul class="more">${more}</ul>`:''}
+      <button type="button" class="donebtn ${done[id]?'on':''}" id="db">${done[id]?'見た ✓（もう一度押すと取り消し）':'見たらチェックする'}</button>
+    </div>`;
+  lastFocus=document.activeElement;
+  ov.classList.add('open');ov.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';
+  sheet.scrollTop=0;sheet.querySelector('#xb').focus();
+  sheet.querySelector('#xb').onclick=closeDetail;
+  sheet.querySelector('#db').onclick=()=>{toggleId(id);openDetail(id)};
+  sheet.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>openDetail(b.dataset.go));
+}
+function closeDetail(){ov.classList.remove('open');ov.setAttribute('aria-hidden','true');document.body.style.overflow='';if(lastFocus&&lastFocus.focus)lastFocus.focus()}
+ov.addEventListener('click',e=>{if(e.target===ov)closeDetail()});
+addEventListener('keydown',e=>{if(e.key==='Escape'&&ov.classList.contains('open'))closeDetail()});
 
 const store={get(){try{return JSON.parse(localStorage.getItem('doomsday-done')||'{}')}catch(e){return {}}},
              set(v){try{localStorage.setItem('doomsday-done',JSON.stringify(v))}catch(e){}}};
@@ -316,15 +417,16 @@ function progress(){
   ['prog1','prog2'].forEach(id=>document.getElementById(id).innerHTML=html);
   document.querySelectorAll('.rs').forEach(b=>b.onclick=()=>{if(confirm('チェックを全部リセットしますか？')){done={};store.set(done);render()}});
 }
-function toggle(c){
-  const id=c.dataset.id; if(done[id])delete done[id]; else done[id]=1;
-  c.classList.toggle('done',!!done[id]); c.setAttribute('aria-checked',!!done[id]);
+function toggleId(id){
+  if(done[id])delete done[id]; else done[id]=1;
+  const c=document.querySelector(`.film[data-id="${id}"]`);
+  if(c){c.classList.toggle('done',!!done[id]);const b=c.querySelector('.chk');if(b)b.setAttribute('aria-pressed',!!done[id])}
   store.set(done); progress();
 }
 function bind(){
   document.querySelectorAll('.film').forEach(c=>{
-    c.addEventListener('click',()=>toggle(c));
-    c.addEventListener('keydown',e=>{if(e.key===' '||e.key==='Enter'){e.preventDefault();toggle(c)}});
+    c.addEventListener('click',e=>{if(e.target.closest('.chk')){e.stopPropagation();toggleId(c.dataset.id)}else openDetail(c.dataset.id)});
+    c.addEventListener('keydown',e=>{if(e.target===c&&(e.key===' '||e.key==='Enter')){e.preventDefault();openDetail(c.dataset.id)}});
   });
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.06});
   document.querySelectorAll('.rv').forEach(el=>io.observe(el));
